@@ -1,0 +1,31 @@
+@import url("./css/molecules/fonts.css");
+@import url("./css/molecules/color.css");
+@import url("./css/molecules/assets.css");
+@import url("./css/molecules/buttons.css");
+@import url("./css/molecules/footer.css");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  color: #f4f7ff;
+  background:
+    linear-gradient(90deg, rgba(5, 7, 18, 0.72), rgba(5, 7, 18, 0.2)),
+    image-set(
+      url("./assets/images/background_image.webp") type("image/webp"),
+      url("./assets/images/background_image.png") type("image/png")
+    )
+    center / cover no-repeat fixed;
+}
+
+#app {
+  min-height: 100vh;
+}
