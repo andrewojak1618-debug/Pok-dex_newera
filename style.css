@@ -20,10 +20,10 @@ body {
   background:
     linear-gradient(90deg, rgba(5, 7, 18, 0.72), rgba(5, 7, 18, 0.2)),
     image-set(
-      url("./assets/images/background_image.webp") type("image/webp"),
-      url("./assets/images/background_image.png") type("image/png")
-    )
-    center / cover no-repeat fixed;
+        url("./assets/images/background_image.webp") type("image/webp"),
+        url("./assets/images/background_image.png") type("image/png")
+      )
+      center / cover no-repeat fixed;
 }
 
 #app {
