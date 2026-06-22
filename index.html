@@ -5,13 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokedex</title>
     <link rel="stylesheet" href="./style.css" />
-    <script src="./js/global_var.js" defer></script>
-    <script src="./js/db.js" defer></script>
-    <script src="./js/api_utility.js" defer></script>
-    <script src="./js/pkm_detailview.js" defer></script>
-    <script src="./js/script.js" defer></script>
+    <script src="./js/globalState.js" defer></script>
+    <script src="./js/pokemonData.js" defer></script>
+    <script src="./js/templates.js" defer></script>
+    <script src="./js/pokemonApi.js" defer></script>
+    <script src="./js/pokemonDetails.js" defer></script>
+    <script src="./js/main.js" defer></script>
   </head>
   <body>
-    <main id="app"></main>
+    <main id="app" class="pokedex-shell">
+      <section class="pokedex-list-panel" aria-label="Pokemon Liste">
+        <form class="search-bar">
+          <label class="search-label" for="pokemon-search"
+            >Search your Pokemon</label
+          >
+          <input
+            id="pokemon-search"
+            class="search-input"
+            type="search"
+            name="pokemon-search"
+          />
+          <button
+            class="search-button"
+            type="submit"
+            aria-label="Pokemon suchen"
+          >
+            <span></span>
+          </button>
+        </form>
+
+        <div class="pokemon-grid" aria-label="Pokemon Karten">
+          <article class="pokemon-card-placeholder"></article>
+          <article class="pokemon-card-placeholder"></article>
+          <article class="pokemon-card-placeholder"></article>
+          <article class="pokemon-card-placeholder"></article>
+          <article class="pokemon-card-placeholder"></article>
+          <article class="pokemon-card-placeholder"></article>
+          <article class="pokemon-card-placeholder"></article>
+          <article class="pokemon-card-placeholder"></article>
+          <article class="pokemon-card-placeholder"></article>
+        </div>
+      </section>
+
+      <aside
+        class="pokemon-detail-panel"
+        aria-label="Pokemon Detailansicht"
+      ></aside>
+    </main>
   </body>
 </html>
