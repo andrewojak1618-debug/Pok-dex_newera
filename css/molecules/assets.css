@@ -1,0 +1,62 @@
+body {
+  background:
+    linear-gradient(90deg, var(--background_overlay_start), var(--background_overlay_end)),
+    image-set(
+        url("../../assets/images/background_image.webp") type("image/webp"),
+        url("../../assets/images/background_image.png") type("image/png")
+      )
+      center / cover no-repeat fixed;
+  background-color: var(--page_dark);
+}
+
+.header_logo {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: drop-shadow(0 0 14px var(--logo_shadow));
+}
+
+.pokemon_card_image {
+  width: min(82%, 132px);
+  height: 94px;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 18px var(--pokemon_image_shadow));
+}
+
+.loading_logo {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  animation: rotate_loading_logo 1.8s linear infinite;
+  filter: drop-shadow(0 0 18px var(--logo_shadow));
+}
+
+.dialog_pokemon_image {
+  width: min(72vw, 320px);
+  height: 280px;
+  object-fit: contain;
+  border-radius: 50%;
+  filter: drop-shadow(0 18px 28px var(--pokemon_image_shadow));
+}
+
+@keyframes rotate_loading_logo {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .header_logo {
+    width: 56px;
+    height: 56px;
+  }
+
+  .dialog_pokemon_image {
+    height: 220px;
+  }
+}
