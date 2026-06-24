@@ -3,7 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pokedex</title>
+    <title>DarkDex Pokedex</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="./assets/icons/darkPok_favicon.png"
+    />
     <link rel="stylesheet" href="./style.css" />
     <script src="./js/globalState.js" defer></script>
     <script src="./js/pokemonData.js" defer></script>
@@ -13,27 +18,43 @@
     <script src="./js/main.js" defer></script>
   </head>
   <body>
-    <main id="app" class="pokedex_shell">
-      <section class="pokedex_list_panel" aria-label="Pokemon Liste">
-        <form class="search_bar">
-          <label class="search_label" for="pokemon_search"
-            >Search your Pokemon</label
-          >
-          <input
-            id="pokemon_search"
-            class="search_input"
-            type="search"
-            name="pokemon_search"
-          />
-          <button
-            class="search_button"
-            type="submit"
-            aria-label="Pokemon suchen"
-          >
-            <span></span>
-          </button>
-        </form>
+    <header class="page_header">
+      <a class="brand_link" href="#app" aria-label="DarkDex Startseite">
+        <img
+          class="header_logo"
+          src="./assets/images/darkDex_headerLogo.png"
+          alt="DarkDex Logo"
+        />
+        <span class="header_title">DarkDex</span>
+      </a>
 
+      <form class="search_bar">
+        <label class="screen_reader_text" for="pokemon_search">
+          Search your Pokemon
+        </label>
+        <input
+          id="pokemon_search"
+          class="search_input"
+          data-id="search-input"
+          type="search"
+          name="pokemon_search"
+          minlength="3"
+          placeholder="Search your Pokemon"
+          autocomplete="off"
+        />
+        <button
+          class="search_button"
+          data-id="search-button"
+          type="submit"
+          aria-label="Search Pokemon"
+        >
+          <span></span>
+        </button>
+      </form>
+    </header>
+
+    <main id="app" data-id="content" class="pokedex_shell">
+      <section class="pokedex_list_panel" aria-label="Pokemon Liste">
         <div class="pokemon_grid" aria-label="Pokemon Karten">
           <article class="pokemon_card_placeholder"></article>
           <article class="pokemon_card_placeholder"></article>
