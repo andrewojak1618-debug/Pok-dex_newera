@@ -60,6 +60,8 @@ function mapPokemonData(pokemon) {
     id: pokemon.id,
     name: capitalizeFirstLetter(pokemon.name),
     image: pokemon.sprites.other["official-artwork"].front_default,
+    height: pokemon.height,
+    weight: pokemon.weight,
     types: pokemon.types.map((entry) => entry.type.name),
     stats: pokemon.stats.map((entry) => mapPokemonStat(entry)),
   };

@@ -33,6 +33,11 @@ body.dialog_is_open {
   text-align: center;
 }
 
+.dialog_pokemon_number {
+  font-size: 1rem;
+  line-height: 1;
+}
+
 .dialog_pokemon_text {
   max-width: 520px;
   font-size: 1.1rem;
@@ -40,26 +45,48 @@ body.dialog_is_open {
   text-align: center;
 }
 
+.dialog_measures {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 14px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.dialog_measure {
+  display: grid;
+  gap: 6px;
+  padding: 12px 16px;
+  border-radius: 16px 4px 16px 4px;
+  text-align: center;
+}
+
+.dialog_measure b {
+  font-size: 0.82rem;
+}
+
 .dialog_stats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(90px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(6, minmax(64px, 1fr));
+  gap: 10px;
   width: 100%;
   max-width: 620px;
 }
 
 .dialog_stat {
   display: grid;
-  gap: 6px;
-  min-height: 76px;
-  padding: 12px;
-  border-radius: 16px 4px 16px 4px;
+  place-items: center;
+  gap: 4px;
+  min-height: 66px;
+  padding: 10px 8px;
+  border-radius: 999px;
   text-align: center;
 }
 
 .dialog_stat b {
-  font-size: 0.76rem;
+  font-size: 0.7rem;
   font-weight: 700;
+  line-height: 1;
 }
 
 .dialog_navigation {

@@ -296,14 +296,29 @@ body {
   text-shadow: 0 0 18px rgba(188, 100, 255, 0.72);
 }
 
+.dialog_pokemon_number {
+  color: var(--text_muted);
+}
+
 .dialog_pokemon_text {
   color: var(--dialog_text_muted);
 }
 
-.dialog_stat {
-  border: 1px solid var(--neon_purple);
+.dialog_measure {
+  border: 1px solid var(--neon_blue);
   color: var(--text_muted);
   background: var(--search_button_bg);
+}
+
+.dialog_measure b {
+  color: var(--text_soft);
+}
+
+.dialog_stat {
+  border: 1px solid var(--neon_purple);
+  color: var(--text_light);
+  background: var(--search_button_bg);
+  box-shadow: inset 0 0 18px rgba(209, 142, 255, 0.08);
 }
 
 .dialog_stat b {
