@@ -38,6 +38,16 @@ function mapPokemonData(pokemon) {
     name: capitalizeFirstLetter(pokemon.name),
     image: pokemon.sprites.other["official-artwork"].front_default,
     types: pokemon.types.map((entry) => entry.type.name),
+    stats: pokemon.stats.map((entry) => mapPokemonStat(entry)),
+  };
+}
+
+
+// Kürzt einen Stat-Eintrag auf Name und Wert.
+function mapPokemonStat(entry) {
+  return {
+    name: entry.stat.name,
+    value: entry.base_stat,
   };
 }
 

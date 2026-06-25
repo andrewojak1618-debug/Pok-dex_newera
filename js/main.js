@@ -2,6 +2,7 @@
 async function initPokedex() {
   connectLoadMoreButton();
   connectSearchForm();
+  connectPokemonGrid();
   await loadInitialPokemon();
 }
 
@@ -17,6 +18,13 @@ function connectLoadMoreButton() {
 function connectSearchForm() {
   const searchForm = document.querySelector(".search_bar");
   searchForm.addEventListener("submit", handleSearchSubmit);
+}
+
+
+// Verbindet das Pokemon-Grid mit dem Dialog.
+function connectPokemonGrid() {
+  const pokemonGrid = document.getElementById("pokemon_grid");
+  pokemonGrid.addEventListener("click", handlePokemonCardClick);
 }
 
 
@@ -148,6 +156,55 @@ function renderPokemonGrid(pokemons) {
 function renderMessage(message) {
   document.getElementById("pokemon_grid").innerHTML = "";
   document.getElementById("message_container").innerHTML = getNotFoundTemplate(message);
+}
+
+
+// Reagiert auf den Klick einer Pokemon-Karte.
+function handlePokemonCardClick(event) {
+  const pokemonCard = event.target.closest("[data-id='card']");
+  if (!pokemonCard) return;
+  openPokemonDialog(Number(pokemonCard.dataset.pokemonId));
+}
+
+
+// Lädt die Dialog-Daten und öffnet den Dialog.
+async function openPokemonDialog(pokemonId) {
+  try {
+    const pokemon = await fetchPokemonById(pokemonId);
+    pokemonState.activePokemonId = pokemon.id;
+    renderPokemonDialog(pokemon);
+    showPokemonDialog();
+  } catch (error) {
+    renderMessage("Pokemon details could not be loaded.");
+  }
+}
+
+
+// Rendert die echten Pokemon-Daten in den Dialog.
+function renderPokemonDialog(pokemon) {
+  const dialogContent = document.querySelector("[data-id='overlay-pokemon-name']");
+  dialogContent.innerHTML = getPokemonDialogContentTemplate(pokemon);
+  connectDialogCloseButton();
+}
+
+
+// Öffnet den nativen Pokemon-Dialog.
+function showPokemonDialog() {
+  const pokemonDialog = document.getElementById("pokemon_dialog");
+  pokemonDialog.showModal();
+}
+
+
+// Verbindet den Schließen-Button mit dem Dialog.
+function connectDialogCloseButton() {
+  const closeButton = document.querySelector("[data-id='close-dialog-button']");
+  closeButton.addEventListener("click", closePokemonDialog);
+}
+
+
+// Schließt den nativen Pokemon-Dialog.
+function closePokemonDialog() {
+  document.getElementById("pokemon_dialog").close();
 }
 
 

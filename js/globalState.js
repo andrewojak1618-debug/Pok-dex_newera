@@ -6,6 +6,7 @@ const pokemonState = {
   nextPokemonId: 1,
   maxPokemonId: 1025,
   isLoading: false,
+  activePokemonId: null,
   pokemonCache: {},
   renderedPokemonIds: [],
 };

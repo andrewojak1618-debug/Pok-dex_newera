@@ -2,7 +2,9 @@
 @import url("./css/molecules/color.css");
 @import url("./css/molecules/assets.css");
 @import url("./css/molecules/buttons.css");
+@import url("./css/molecules/dialog.css");
 @import url("./css/molecules/footer.css");
+@import url("./css/molecules/mediaquery.css");
 
 * {
   box-sizing: border-box;
@@ -149,132 +151,6 @@ body {
   backdrop-filter: blur(6px);
 }
 
-.pokemon_dialog {
-  width: min(92vw, 880px);
-  border: 0;
-  margin: auto;
-  padding: 0;
-  background: transparent;
-}
-
-.pokemon_dialog::backdrop {
-  backdrop-filter: blur(8px);
-}
-
-.dialog_card {
-  position: relative;
-  display: grid;
-  justify-items: center;
-  gap: 18px;
-  min-height: 620px;
-  padding: 56px 48px 40px;
-  border-radius: 38px 8px 38px 8px;
-}
-
-.dialog_pokemon_name {
-  font-size: 2.4rem;
-  line-height: 1.1;
-  text-align: center;
-}
-
-.dialog_pokemon_text {
-  max-width: 520px;
-  font-size: 1.1rem;
-  line-height: 1.5;
-  text-align: center;
-}
-
-.dialog_navigation {
-  display: flex;
-  justify-content: space-between;
-  gap: 18px;
-  width: 100%;
-  margin-top: auto;
-}
-
 .is_hidden {
   display: none;
-}
-
-@media screen and (max-width: 1100px) {
-  .page_header {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .brand_link {
-    justify-content: center;
-  }
-
-  .search_bar {
-    width: 100%;
-  }
-
-  .pokedex_shell {
-    grid-template-columns: 1fr;
-    padding: 40px 24px;
-  }
-
-  .pokemon_detail_panel {
-    min-height: 420px;
-  }
-}
-
-@media screen and (max-width: 720px) {
-  .page_header {
-    width: min(100% - 32px, 1480px);
-    min-height: auto;
-    gap: 20px;
-    padding: 16px;
-  }
-
-  .header_title {
-    font-size: 1.55rem;
-  }
-
-  .pokedex_shell {
-    padding: 24px 16px;
-  }
-
-  .pokemon_grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .search_bar {
-    grid-template-columns: minmax(0, 1fr) 72px;
-    min-height: 68px;
-  }
-
-  .search_input {
-    padding: 0 18px;
-    font-size: 0.95rem;
-  }
-
-  .pokemon_dialog {
-    width: min(94vw, 520px);
-  }
-
-  .dialog_card {
-    min-height: 520px;
-    padding: 52px 22px 28px;
-  }
-
-  .dialog_navigation {
-    flex-direction: column;
-  }
-}
-
-@media screen and (max-width: 360px) {
-  .page_header {
-    width: min(100% - 20px, 1480px);
-  }
-
-  .header_title {
-    font-size: 1.35rem;
-  }
-
-  .search_bar {
-    grid-template-columns: minmax(0, 1fr) 60px;
-  }
 }

@@ -44,7 +44,11 @@
   border-radius: 22px 4px 22px 4px;
   padding: 16px 14px 18px;
   background:
-    linear-gradient(135deg, var(--pokemon_card_bg_start), var(--pokemon_card_bg_end)),
+    linear-gradient(
+      135deg,
+      var(--pokemon_card_bg_start),
+      var(--pokemon_card_bg_end)
+    ),
     var(--pokemon_card_bg_base);
   box-shadow:
     0 0 26px var(--pokemon_card_shadow),
@@ -86,34 +90,29 @@
 
 .close_dialog_button {
   position: absolute;
-  top: 18px;
-  right: 18px;
+  top: 14px;
+  right: 14px;
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 1px solid var(--neon_purple);
+  width: 64px;
+  height: 64px;
+  border: 0;
   border-radius: 50%;
-  background: var(--search_button_bg);
+  background:
+    url("../../assets/icons/p.holder_green_ball.png") center / contain no-repeat,
+    transparent;
   cursor: pointer;
+  filter: drop-shadow(0 0 14px var(--logo_shadow));
+  transition:
+    filter 160ms ease,
+    transform 160ms ease;
 }
 
-.close_dialog_button span::before,
-.close_dialog_button span::after {
-  content: "";
-  position: absolute;
-  width: 22px;
-  height: 2px;
-  border-radius: 999px;
-  background: var(--search_icon_color);
-}
-
-.close_dialog_button span::before {
-  transform: rotate(45deg);
-}
-
-.close_dialog_button span::after {
-  transform: rotate(-45deg);
+.close_dialog_button:hover,
+.close_dialog_button:focus-visible {
+  background-image: url("../../assets/icons/closed_red_ball.png");
+  filter: drop-shadow(0 0 18px var(--pokemon_card_hover_shadow));
+  transform: scale(1.08);
 }
 
 .dialog_arrow_button {
@@ -126,8 +125,6 @@
   cursor: pointer;
 }
 
-.close_dialog_button:hover,
-.close_dialog_button:focus-visible,
 .dialog_arrow_button:hover,
 .dialog_arrow_button:focus-visible {
   border-color: var(--neon_purple_strong);

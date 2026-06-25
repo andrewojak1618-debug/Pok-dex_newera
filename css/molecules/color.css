@@ -299,3 +299,13 @@ body {
 .dialog_pokemon_text {
   color: var(--dialog_text_muted);
 }
+
+.dialog_stat {
+  border: 1px solid var(--neon_purple);
+  color: var(--text_muted);
+  background: var(--search_button_bg);
+}
+
+.dialog_stat b {
+  color: var(--text_soft);
+}
