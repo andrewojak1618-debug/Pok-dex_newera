@@ -99,7 +99,7 @@
   border: 0;
   border-radius: 50%;
   background:
-    url("../../assets/icons/p.holder_green_ball.png") center / contain no-repeat,
+    url("../../assets/icons/p.holder_green_ball_small.png") center / contain no-repeat,
     transparent;
   cursor: pointer;
   filter: drop-shadow(0 0 14px var(--logo_shadow));
@@ -110,7 +110,7 @@
 
 .close_dialog_button:hover,
 .close_dialog_button:focus-visible {
-  background-image: url("../../assets/icons/closed_red_ball.png");
+  background-image: url("../../assets/icons/closed_red_ball_small.png");
   filter: drop-shadow(0 0 18px var(--pokemon_card_hover_shadow));
   transform: scale(1.08);
 }
