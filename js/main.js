@@ -24,7 +24,14 @@ function connectSearchForm() {
 // Verbindet das Suchfeld mit der Button-Aktivierung.
 function connectSearchInput() {
   const searchInput = getSearchInput();
-  searchInput.addEventListener("input", updateSearchButtonState);
+  searchInput.addEventListener("input", handleSearchInput);
+}
+
+// Reagiert auf Änderungen im Suchfeld.
+function handleSearchInput() {
+  updateSearchButtonState();
+  if (getSearchValue()) return;
+  resetSearchResult();
 }
 
 // Verbindet das Pokemon-Grid mit dem Dialog.
@@ -171,8 +178,12 @@ async function renderApiSearchResult(searchValue) {
 
 // Rendert ein einzelnes gefundenes Pokemon als Karte.
 function renderFoundPokemon(pokemon) {
-  rememberRenderedPokemonId(pokemon.id);
   renderPokemonGrid([pokemon]);
+}
+
+// Stellt die bereits geladene Pokemon-Liste wieder her.
+function resetSearchResult() {
+  renderPokemonGrid(getRenderedPokemons());
 }
 
 // Holt alle aktuell gerenderten Pokemon aus dem Cache.
