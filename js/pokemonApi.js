@@ -4,10 +4,32 @@ async function fetchPokemonById(pokemonId) {
     return pokemonState.pokemonCache[pokemonId];
   }
 
-  const response = await fetch(`${pokemonState.baseUrl}/pokemon/${pokemonId}`);
+  return await requestPokemon(pokemonId);
+}
+
+
+// Lädt ein Pokemon per Namen oder nutzt es aus dem Cache.
+async function fetchPokemonByName(pokemonName) {
+  const cachedPokemon = findCachedPokemonByName(pokemonName);
+  return cachedPokemon || await requestPokemon(pokemonName);
+}
+
+
+// Holt ein Pokemon direkt aus der API und speichert es im Cache.
+async function requestPokemon(searchValue) {
+  const response = await fetch(`${pokemonState.baseUrl}/pokemon/${searchValue}`);
+  if (!response.ok) return null;
   const pokemon = mapPokemonData(await response.json());
-  pokemonState.pokemonCache[pokemonId] = pokemon;
+  pokemonState.pokemonCache[pokemon.id] = pokemon;
   return pokemon;
+}
+
+
+// Sucht ein Pokemon im vorhandenen Cache über seinen Namen.
+function findCachedPokemonByName(pokemonName) {
+  return Object.values(pokemonState.pokemonCache).find((pokemon) => {
+    return pokemon.name.toLowerCase() === pokemonName;
+  });
 }
 
 

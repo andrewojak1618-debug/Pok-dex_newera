@@ -7,6 +7,7 @@ const pokemonState = {
   maxPokemonId: 1025,
   isLoading: false,
   activePokemonId: null,
+  scrollPosition: 0,
   pokemonCache: {},
   renderedPokemonIds: [],
 };

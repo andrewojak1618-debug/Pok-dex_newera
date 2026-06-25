@@ -6,6 +6,13 @@
   background: transparent;
 }
 
+body.dialog_is_open {
+  position: fixed;
+  right: 0;
+  left: 0;
+  width: 100%;
+}
+
 .pokemon_dialog::backdrop {
   backdrop-filter: blur(8px);
 }
