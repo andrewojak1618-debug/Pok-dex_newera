@@ -6,6 +6,7 @@ const pokemonState = {
   nextPokemonId: 1,
   maxPokemonId: 1025,
   isLoading: false,
+  isSearchActive: false,
   activePokemonId: null,
   scrollPosition: 0,
   pokemonCache: {},

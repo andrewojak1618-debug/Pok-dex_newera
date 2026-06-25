@@ -17,7 +17,8 @@ async function fetchPokemonByName(pokemonName) {
 
 // Holt ein Pokemon direkt aus der API und speichert es im Cache.
 async function requestPokemon(searchValue) {
-  const response = await fetch(`${pokemonState.baseUrl}/pokemon/${searchValue}`);
+  const pokemonUrl = `${pokemonState.baseUrl}/pokemon/${encodeURIComponent(searchValue)}`;
+  const response = await fetch(pokemonUrl);
   if (!response.ok) return null;
   const pokemon = mapPokemonData(await response.json());
   pokemonState.pokemonCache[pokemon.id] = pokemon;

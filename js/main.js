@@ -30,7 +30,8 @@ function connectSearchInput() {
 // Reagiert auf Änderungen im Suchfeld.
 function handleSearchInput() {
   updateSearchButtonState();
-  if (getSearchValue()) return;
+  if (isValidSearchValue(getSearchValue())) return;
+  if (!pokemonState.isSearchActive) return;
   resetSearchResult();
 }
 
@@ -123,6 +124,7 @@ function toggleLoadingScreen(isLoading) {
 function toggleLoadMoreButton(isLoading) {
   const loadMoreButton = document.getElementById("load_more_button");
   loadMoreButton.disabled = isLoading;
+  loadMoreButton.classList.toggle("is_hidden", pokemonState.isSearchActive);
 }
 
 // Verarbeitet die Suche und prüft die Mindestlänge.
@@ -135,6 +137,7 @@ async function handleSearchSubmit(event) {
     return;
   }
 
+  activateSearchMode();
   await renderSearchResult(searchValue);
 }
 
@@ -160,11 +163,25 @@ function updateSearchButtonState() {
     pokemonState.isLoading || !isValidSearchValue(getSearchValue());
 }
 
+// Schaltet die App in den Suchmodus.
+function activateSearchMode() {
+  pokemonState.isSearchActive = true;
+  toggleLoadMoreButton(pokemonState.isLoading);
+}
+
+// Schaltet die App zurück in den Listenmodus.
+function deactivateSearchMode() {
+  pokemonState.isSearchActive = false;
+  toggleLoadMoreButton(pokemonState.isLoading);
+}
+
 // Lädt ein Pokemon per API-Suche und rendert das Ergebnis.
 async function renderSearchResult(searchValue) {
   setLoadingState(true);
   try {
     await renderApiSearchResult(searchValue);
+  } catch (error) {
+    renderMessage("No match found.");
   } finally {
     setLoadingState(false);
   }
@@ -183,6 +200,7 @@ function renderFoundPokemon(pokemon) {
 
 // Stellt die bereits geladene Pokemon-Liste wieder her.
 function resetSearchResult() {
+  deactivateSearchMode();
   renderPokemonGrid(getRenderedPokemons());
 }
 
