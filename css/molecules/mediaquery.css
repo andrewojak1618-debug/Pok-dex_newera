@@ -4,6 +4,11 @@
     align-items: stretch;
   }
 
+  .header_brand {
+    order: 0;
+    justify-content: center;
+  }
+
   .search_bar {
     width: min(100%, 732px);
   }

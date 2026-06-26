@@ -26,10 +26,33 @@ body {
 .page_header {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
+  gap: 24px;
   width: min(100% - 48px, 1480px);
   margin: 0 auto;
   padding: 0 24px;
+}
+
+.header_brand {
+  order: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: max-content;
+}
+
+.header_logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 16px var(--logo_shadow));
+}
+
+.page_title {
+  color: var(--text_soft);
+  font-size: 1.8rem;
+  line-height: 1;
+  text-shadow: 0 0 18px rgba(188, 100, 255, 0.72);
 }
 
 .screen_reader_text {

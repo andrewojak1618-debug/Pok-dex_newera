@@ -55,12 +55,19 @@ function getDetailPanelTemplate(pokemon) {
       <span class="detail_panel_number">No. ${pokemon.id}</span>
       <h2 class="detail_panel_name">${pokemon.name}</h2>
       <span class="pokemon_types">${getPokemonTypesTemplate(pokemon.types)}</span>
-      <h3 class="detail_panel_section_title">Profile</h3>
-      ${getPokemonMeasureTemplate(pokemon)}
-      <h3 class="detail_panel_section_title">Stats</h3>
-      <div class="detail_panel_stats">${getDetailStatsTemplate(pokemon.stats)}</div>
+      ${getDetailPanelProfileTemplate(pokemon)}
       ${getDetailEvolutionContentTemplate()}
     </article>
+  `;
+}
+
+// Baut Profil und Stats für das rechte Detailpanel.
+function getDetailPanelProfileTemplate(pokemon) {
+  return `
+    <h3 class="detail_panel_section_title">Profile</h3>
+    ${getPokemonMeasureTemplate(pokemon)}
+    <h3 class="detail_panel_section_title">Stats</h3>
+    <div class="detail_panel_stats">${getDetailStatsTemplate(pokemon.stats)}</div>
   `;
 }
 
