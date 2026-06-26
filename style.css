@@ -1,9 +1,7 @@
-@import url("./css/molecules/fonts.css");
 @import url("./css/molecules/color.css");
 @import url("./css/molecules/assets.css");
 @import url("./css/molecules/buttons.css");
 @import url("./css/molecules/dialog.css");
-@import url("./css/molecules/footer.css");
 
 * {
   box-sizing: border-box;

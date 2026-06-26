@@ -129,15 +129,11 @@ http://localhost:<live-server-port>
 |       |-- buttons.css
 |       |-- color.css
 |       |-- dialog.css
-|       |-- fonts.css
-|       |-- footer.css
 |       `-- mediaquery.css
 `-- js/
     |-- globalState.js
     |-- main.js
     |-- pokemonApi.js
-    |-- pokemonData.js
-    |-- pokemonDetails.js
     `-- templates.js
 ```
 
