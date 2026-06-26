@@ -324,3 +324,16 @@ body {
 .dialog_stat b {
   color: var(--text_soft);
 }
+
+.dialog_evolution h3 {
+  color: var(--text_soft);
+}
+
+.dialog_evolution_item,
+.dialog_evolution_level {
+  color: var(--text_muted);
+}
+
+.dialog_evolution_item img {
+  filter: drop-shadow(0 10px 14px var(--pokemon_image_shadow));
+}

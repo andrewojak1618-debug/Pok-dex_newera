@@ -10,5 +10,7 @@ const pokemonState = {
   activePokemonId: null,
   scrollPosition: 0,
   pokemonCache: {},
+  speciesCache: {},
+  evolutionCache: {},
   renderedPokemonIds: [],
 };

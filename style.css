@@ -112,6 +112,7 @@ body {
   min-height: calc(100vh - 104px);
   border-radius: 38px 8px 38px 8px;
   backdrop-filter: blur(6px);
+  pointer-events: none;
 }
 
 .pokemon_number {

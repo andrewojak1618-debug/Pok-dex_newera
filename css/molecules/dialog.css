@@ -89,6 +89,38 @@ body.dialog_is_open {
   line-height: 1;
 }
 
+.dialog_evolution {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  max-width: 620px;
+  text-align: center;
+}
+
+.dialog_evolution_list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.dialog_evolution_item {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+}
+
+.dialog_evolution_item img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.dialog_evolution_level {
+  font-size: 0.82rem;
+}
+
 .dialog_navigation {
   display: flex;
   justify-content: space-between;

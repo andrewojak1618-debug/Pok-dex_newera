@@ -60,6 +60,7 @@ function mapPokemonData(pokemon) {
     id: pokemon.id,
     name: capitalizeFirstLetter(pokemon.name),
     image: pokemon.sprites.other["official-artwork"].front_default,
+    speciesUrl: pokemon.species.url,
     height: pokemon.height,
     weight: pokemon.weight,
     types: pokemon.types.map((entry) => entry.type.name),
@@ -74,6 +75,69 @@ function mapPokemonStat(entry) {
     name: entry.stat.name,
     value: entry.base_stat,
   };
+}
+
+
+// Lädt die Evolution-Chain erst für den geöffneten Dialog.
+async function fetchEvolutionChain(pokemon) {
+  const species = await fetchPokemonSpecies(pokemon.speciesUrl);
+  const chain = await fetchEvolutionData(species.evolution_chain.url);
+  return await mapEvolutionChain(chain.chain);
+}
+
+
+// Lädt Species-Daten oder nutzt sie aus dem Cache.
+async function fetchPokemonSpecies(speciesUrl) {
+  if (pokemonState.speciesCache[speciesUrl]) return pokemonState.speciesCache[speciesUrl];
+  const species = await requestJson(speciesUrl);
+  pokemonState.speciesCache[speciesUrl] = species;
+  return species;
+}
+
+
+// Lädt Evolution-Daten oder nutzt sie aus dem Cache.
+async function fetchEvolutionData(evolutionUrl) {
+  if (pokemonState.evolutionCache[evolutionUrl]) return pokemonState.evolutionCache[evolutionUrl];
+  const evolution = await requestJson(evolutionUrl);
+  pokemonState.evolutionCache[evolutionUrl] = evolution;
+  return evolution;
+}
+
+
+// Wandelt eine Evolution-Chain in Dialog-Daten um.
+async function mapEvolutionChain(chain) {
+  const evolutionNodes = collectEvolutionNodes(chain, null);
+  return await Promise.all(evolutionNodes.map((node) => mapEvolutionNode(node)));
+}
+
+
+// Sammelt alle Evolution-Stufen aus der verschachtelten Chain.
+function collectEvolutionNodes(chain, level) {
+  const node = { name: chain.species.name, level };
+  const nextNodes = chain.evolves_to.flatMap((entry) => {
+    return collectEvolutionNodes(entry, getEvolutionLevel(entry));
+  });
+  return [node, ...nextNodes];
+}
+
+
+// Holt das Level einer Evolution, wenn die API eines liefert.
+function getEvolutionLevel(entry) {
+  return entry.evolution_details[0]?.min_level || null;
+}
+
+
+// Ergänzt Bild und formatierten Namen für eine Evolution-Stufe.
+async function mapEvolutionNode(node) {
+  const pokemon = await fetchPokemonByName(node.name);
+  return { name: pokemon.name, image: pokemon.image, level: node.level };
+}
+
+
+// Holt JSON-Daten direkt von einer API-URL.
+async function requestJson(url) {
+  const response = await fetch(url);
+  return await response.json();
 }
 
 

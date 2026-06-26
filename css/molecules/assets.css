@@ -49,14 +49,3 @@ body {
     transform: rotate(360deg);
   }
 }
-
-@media screen and (max-width: 720px) {
-  .header_logo {
-    width: 56px;
-    height: 56px;
-  }
-
-  .dialog_pokemon_image {
-    height: 220px;
-  }
-}

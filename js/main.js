@@ -236,11 +236,30 @@ function handlePokemonCardClick(event) {
 async function openPokemonDialog(pokemonId) {
   try {
     const pokemon = await fetchPokemonById(pokemonId);
+    const dialogPokemon = await getDialogPokemonData(pokemon);
     pokemonState.activePokemonId = pokemon.id;
-    renderPokemonDialog(pokemon);
+    renderPokemonDialog(dialogPokemon);
     showPokemonDialog();
   } catch (error) {
     renderMessage("Pokemon details could not be loaded.");
+  }
+}
+
+// Ergänzt Dialog-Daten mit lazy geladenen Evolutionsdaten.
+async function getDialogPokemonData(pokemon) {
+  return {
+    ...pokemon,
+    evolutions: await getSafeEvolutionChain(pokemon),
+  };
+}
+
+
+// Lädt Evolutionsdaten ohne den Dialog bei Fehlern zu blockieren.
+async function getSafeEvolutionChain(pokemon) {
+  try {
+    return await fetchEvolutionChain(pokemon);
+  } catch (error) {
+    return [];
   }
 }
 

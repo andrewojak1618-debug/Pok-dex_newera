@@ -40,6 +40,7 @@ function getPokemonDialogContentTemplate(pokemon) {
     <span class="pokemon_types">${getPokemonTypesTemplate(pokemon.types)}</span>
     ${getPokemonMeasureTemplate(pokemon)}
     <div class="dialog_stats">${getPokemonStatsTemplate(pokemon.stats)}</div>
+    ${getEvolutionTemplate(pokemon.evolutions)}
     ${getDialogNavigationTemplate()}
   `;
 }
@@ -100,6 +101,32 @@ function formatHeight(height) {
 // Formatiert das API-Gewicht von Hektogramm zu Kilogramm.
 function formatWeight(weight) {
   return `${(weight / 10).toFixed(1)} kg`;
+}
+
+// Baut die Evolution-Sektion für den Dialog.
+function getEvolutionTemplate(evolutions) {
+  if (!evolutions.length) return "";
+  return `<section class="dialog_evolution"><h3>Evolution</h3><div class="dialog_evolution_list">${getEvolutionItemsTemplate(evolutions)}</div></section>`;
+}
+
+// Baut alle Evolution-Stufen für den Dialog.
+function getEvolutionItemsTemplate(evolutions) {
+  return evolutions
+    .map((evolution, index) => {
+      return getEvolutionItemTemplate(evolution, index);
+    })
+    .join("");
+}
+
+// Baut eine einzelne Evolution-Stufe mit optionalem Level.
+function getEvolutionItemTemplate(evolution, index) {
+  return `${getEvolutionLevelTemplate(evolution, index)}<span class="dialog_evolution_item"><img src="${evolution.image}" alt="${evolution.name}" /><b>${evolution.name}</b></span>`;
+}
+
+// Baut das Level zwischen zwei Evolution-Stufen.
+function getEvolutionLevelTemplate(evolution, index) {
+  if (index === 0) return "";
+  return `<span class="dialog_evolution_level">Lv. ${evolution.level || "?"}</span>`;
 }
 
 // Baut die Navigation für den Dialog.
