@@ -335,15 +335,27 @@ async function renderEvolutionSection(pokemon) {
   try {
     const evolutions = await fetchEvolutionChain(pokemon);
     if (!isActivePokemon(pokemon.id)) return;
-    updateEvolutionSection(getEvolutionTemplate(evolutions));
+    renderLoadedEvolution(evolutions);
   } catch (error) {
-    if (isActivePokemon(pokemon.id)) {
-      updateEvolutionSection(getEvolutionErrorTemplate());
-    }
+    if (isActivePokemon(pokemon.id)) renderEvolutionError();
   }
 }
 
-// Prüft, ob das geladene Pokemon noch im Dialog aktiv ist.
+// Rendert geladene Evolutionen in Dialog und Detailpanel.
+function renderLoadedEvolution(evolutions) {
+  const template = getEvolutionTemplate(evolutions);
+  updateEvolutionSection(template);
+  updateDetailEvolutionSection(template);
+}
+
+// Rendert den Fehlerzustand für Evolutionen.
+function renderEvolutionError() {
+  const template = getEvolutionErrorTemplate();
+  updateEvolutionSection(template);
+  updateDetailEvolutionSection(template);
+}
+
+// Prüft, ob das geladene Pokemon noch aktiv ist.
 function isActivePokemon(pokemonId) {
   return pokemonState.activePokemonId === pokemonId;
 }
@@ -351,6 +363,15 @@ function isActivePokemon(pokemonId) {
 // Aktualisiert nur den Evolution-Bereich im Dialog.
 function updateEvolutionSection(template) {
   const evolutionContent = document.getElementById("dialog_evolution_content");
+  if (!evolutionContent) return;
+  evolutionContent.innerHTML = template;
+}
+
+// Aktualisiert nur den Evolution-Bereich im Detailpanel.
+function updateDetailEvolutionSection(template) {
+  const evolutionContent = document.getElementById(
+    "detail_panel_evolution_content",
+  );
   if (!evolutionContent) return;
   evolutionContent.innerHTML = template;
 }

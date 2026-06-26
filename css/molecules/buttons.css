@@ -1,10 +1,24 @@
 .search_button {
+  position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
   border: 0;
   border-left: 1px solid var(--search_button_border);
   background: var(--search_button_bg);
   cursor: pointer;
+  transition:
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.search_button::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border-radius: 18px 4px 18px 4px;
+  border: 1px solid rgba(216, 231, 255, 0.08);
+  pointer-events: none;
 }
 
 .search_button:disabled,
@@ -14,12 +28,13 @@
 }
 
 .search_button span {
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   border: 3px solid var(--search_icon_color);
   border-radius: 50%;
   position: relative;
   filter: drop-shadow(0 0 8px var(--search_icon_shadow));
+  transform: translateX(4px);
 }
 
 .search_button span::after {
@@ -32,6 +47,12 @@
   border-radius: 999px;
   background: var(--search_icon_color);
   transform: rotate(45deg);
+}
+
+.search_button:hover,
+.search_button:focus-visible {
+  background: rgba(23, 12, 54, 0.72);
+  box-shadow: inset 0 0 24px rgba(232, 173, 255, 0.12);
 }
 
 .pokemon_card {
@@ -83,10 +104,14 @@
 
 .pokemon_card::after {
   background:
-    linear-gradient(90deg, currentColor 0 44px, transparent 44px) left top / 50% 1px no-repeat,
-    linear-gradient(180deg, currentColor 0 44px, transparent 44px) left top / 1px 50% no-repeat,
-    linear-gradient(270deg, currentColor 0 44px, transparent 44px) right bottom / 50% 1px no-repeat,
-    linear-gradient(0deg, currentColor 0 44px, transparent 44px) right bottom / 1px 50% no-repeat;
+    linear-gradient(90deg, currentColor 0 44px, transparent 44px) left top / 50%
+      1px no-repeat,
+    linear-gradient(180deg, currentColor 0 44px, transparent 44px) left top /
+      1px 50% no-repeat,
+    linear-gradient(270deg, currentColor 0 44px, transparent 44px) right
+      bottom / 50% 1px no-repeat,
+    linear-gradient(0deg, currentColor 0 44px, transparent 44px) right bottom /
+      1px 50% no-repeat;
   opacity: 0.42;
 }
 
@@ -120,17 +145,18 @@
 
 .close_dialog_button {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 24px;
+  right: 24px;
   z-index: 2;
   display: grid;
   place-items: center;
-  width: 64px;
-  height: 64px;
+  width: 40px;
+  height: 40px;
   border: 0;
   border-radius: 50%;
   background:
-    url("../../assets/icons/p.holder_green_ball_small.png") center / contain no-repeat,
+    url("../../assets/icons/p.holder_green_ball_small.png") center / contain
+      no-repeat,
     transparent;
   cursor: pointer;
   filter: drop-shadow(0 0 14px var(--logo_shadow));

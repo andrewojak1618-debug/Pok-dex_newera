@@ -59,6 +59,7 @@ function getDetailPanelTemplate(pokemon) {
       ${getPokemonMeasureTemplate(pokemon)}
       <h3 class="detail_panel_section_title">Stats</h3>
       <div class="detail_panel_stats">${getDetailStatsTemplate(pokemon.stats)}</div>
+      ${getDetailEvolutionContentTemplate()}
     </article>
   `;
 }
@@ -66,6 +67,11 @@ function getDetailPanelTemplate(pokemon) {
 // Baut das Bild für das rechte Detailpanel.
 function getDetailPanelImageTemplate(pokemon) {
   return `<img class="detail_panel_image" src="${pokemon.image}" alt="${pokemon.name}" />`;
+}
+
+// Baut die Evolution-Sektion für das rechte Detailpanel.
+function getDetailEvolutionContentTemplate() {
+  return `<section class="detail_panel_evolution" id="detail_panel_evolution_content">${getEvolutionLoadingTemplate()}</section>`;
 }
 
 // Baut die wichtigsten Stats für das Detailpanel.

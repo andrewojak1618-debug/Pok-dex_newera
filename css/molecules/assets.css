@@ -1,3 +1,4 @@
+html,
 body {
   background:
     linear-gradient(90deg, var(--background_overlay_start), var(--background_overlay_end)),
@@ -5,16 +6,8 @@ body {
         url("../../assets/images/background_image.webp") type("image/webp"),
         url("../../assets/images/background_image.png") type("image/png")
       )
-      center / cover no-repeat fixed;
+      top center / cover no-repeat fixed;
   background-color: var(--page_dark);
-}
-
-.header_logo {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  object-fit: cover;
-  filter: drop-shadow(0 0 14px var(--logo_shadow));
 }
 
 .pokemon_card_image {

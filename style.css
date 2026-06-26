@@ -17,6 +17,7 @@ html {
 
 body {
   min-height: 100vh;
+  padding-top: 24px;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -27,29 +28,10 @@ body {
 .page_header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 32px;
+  justify-content: flex-start;
   width: min(100% - 48px, 1480px);
-  min-height: 112px;
-  margin: 24px auto 0;
-  padding: 14px 28px;
-  border-radius: 34px 8px 34px 8px;
-  backdrop-filter: blur(10px);
-}
-
-.brand_link {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  min-width: 0;
-  text-decoration: none;
-}
-
-.header_title {
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: 0;
-  white-space: nowrap;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
 .screen_reader_text {
@@ -77,16 +59,46 @@ body {
 }
 
 .search_bar {
+  position: relative;
+  z-index: 1;
   display: grid;
-  grid-template-columns: minmax(220px, 520px) 88px;
-  width: min(100%, 640px);
-  min-height: 78px;
-  border-radius: 30px 8px 30px 8px;
+  grid-template-columns: minmax(220px, 620px) 112px;
+  width: min(100%, 732px);
+  min-height: 72px;
+  border-radius: 28px 6px 28px 6px;
   backdrop-filter: blur(8px);
   overflow: hidden;
 }
 
+.search_bar::before,
+.search_bar::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.search_bar::before {
+  inset: 8px;
+  border-radius: 20px 4px 20px 4px;
+}
+
+.search_bar::after {
+  inset: 0;
+  background:
+    linear-gradient(90deg, currentColor 0 58px, transparent 58px) left top / 46%
+      1px no-repeat,
+    linear-gradient(180deg, currentColor 0 34px, transparent 34px) left top /
+      1px 50% no-repeat,
+    linear-gradient(270deg, currentColor 0 58px, transparent 58px) right
+      bottom / 46% 1px no-repeat,
+    linear-gradient(0deg, currentColor 0 34px, transparent 34px) right bottom /
+      1px 50% no-repeat;
+  opacity: 0.5;
+}
+
 .search_input {
+  position: relative;
+  z-index: 1;
   width: 100%;
   min-width: 0;
   border: 0;
@@ -113,7 +125,8 @@ body {
   display: grid;
   align-self: start;
   place-items: center;
-  min-height: calc(100vh - 104px);
+  margin-top: -144px;
+  min-height: calc(65vh - 104px);
   padding: 34px 28px;
   border-radius: 38px 8px 38px 8px;
   backdrop-filter: blur(6px);
@@ -191,10 +204,14 @@ body {
 
 .detail_empty_image_frame::after {
   background:
-    linear-gradient(90deg, currentColor 0 42px, transparent 42px) left top / 50% 1px no-repeat,
-    linear-gradient(180deg, currentColor 0 42px, transparent 42px) left top / 1px 50% no-repeat,
-    linear-gradient(270deg, currentColor 0 42px, transparent 42px) right bottom / 50% 1px no-repeat,
-    linear-gradient(0deg, currentColor 0 42px, transparent 42px) right bottom / 1px 50% no-repeat;
+    linear-gradient(90deg, currentColor 0 42px, transparent 42px) left top / 50%
+      1px no-repeat,
+    linear-gradient(180deg, currentColor 0 42px, transparent 42px) left top /
+      1px 50% no-repeat,
+    linear-gradient(270deg, currentColor 0 42px, transparent 42px) right
+      bottom / 50% 1px no-repeat,
+    linear-gradient(0deg, currentColor 0 42px, transparent 42px) right bottom /
+      1px 50% no-repeat;
   opacity: 0.34;
 }
 
@@ -232,6 +249,27 @@ body {
 .detail_panel_stats .dialog_stat {
   min-height: 56px;
   padding: 8px 5px;
+}
+
+.detail_panel_evolution {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  margin-top: 4px;
+  text-align: center;
+}
+
+.detail_panel_evolution .dialog_evolution_list {
+  gap: 8px;
+}
+
+.detail_panel_evolution .dialog_evolution_item {
+  min-width: 54px;
+}
+
+.detail_panel_evolution .dialog_evolution_item img {
+  width: 42px;
+  height: 42px;
 }
 
 .pokemon_number {
