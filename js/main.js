@@ -74,16 +74,38 @@ async function loadPokemonCards(amount) {
 // Lädt neue Pokemon und fügt sie an die Liste an.
 async function appendNextPokemonCards(amount) {
   const pokemons = await fetchNextPokemons(amount);
+  if (!pokemons.length) return;
   appendPokemonCards(pokemons);
   rememberRenderedPokemonIds(pokemons);
+  updateVisiblePokemonIds(getRenderedPokemons());
 }
 
 // Holt die nächsten Pokemon anhand des aktuellen Startpunkts.
 async function fetchNextPokemons(amount) {
   const startId = pokemonState.nextPokemonId;
-  const pokemons = await fetchPokemonRange(startId, amount);
+  const loadAmount = getLimitedLoadAmount(amount);
+  if (loadAmount === 0) return [];
+  const pokemons = await fetchPokemonRange(startId, loadAmount);
   pokemonState.nextPokemonId += pokemons.length;
-  return pokemons;
+  return getNewPokemons(pokemons);
+}
+
+// Begrenzt die Lademenge auf die übrigen Pokemon.
+function getLimitedLoadAmount(amount) {
+  const remainingAmount = getRemainingPokemonAmount();
+  return Math.min(amount, Math.max(remainingAmount, 0));
+}
+
+// Ermittelt, wie viele Pokemon noch geladen werden können.
+function getRemainingPokemonAmount() {
+  return pokemonState.maxPokemonId - pokemonState.nextPokemonId + 1;
+}
+
+// Filtert Pokemon heraus, die bereits gerendert wurden.
+function getNewPokemons(pokemons) {
+  return pokemons.filter((pokemon) => {
+    return !pokemonState.renderedPokemonIds.includes(pokemon.id);
+  });
 }
 
 // Fügt Pokemon-Karten in den vorhandenen Grid-Container ein.
@@ -123,8 +145,18 @@ function toggleLoadingScreen(isLoading) {
 // Aktiviert oder deaktiviert den Load-More-Button.
 function toggleLoadMoreButton(isLoading) {
   const loadMoreButton = document.getElementById("load_more_button");
-  loadMoreButton.disabled = isLoading;
-  loadMoreButton.classList.toggle("is_hidden", pokemonState.isSearchActive);
+  loadMoreButton.disabled = isLoading || !hasMorePokemonToLoad();
+  loadMoreButton.classList.toggle("is_hidden", isLoadMoreButtonHidden());
+}
+
+// Prüft, ob der Load-More-Button versteckt werden soll.
+function isLoadMoreButtonHidden() {
+  return pokemonState.isSearchActive || !hasMorePokemonToLoad();
+}
+
+// Prüft, ob weitere Pokemon geladen werden können.
+function hasMorePokemonToLoad() {
+  return pokemonState.nextPokemonId <= pokemonState.maxPokemonId;
 }
 
 // Verarbeitet die Suche und prüft die Mindestlänge.
@@ -216,6 +248,12 @@ function renderPokemonGrid(pokemons) {
   document.getElementById("message_container").innerHTML = "";
   document.getElementById("pokemon_grid").innerHTML =
     getPokemonCardsTemplate(pokemons);
+  updateVisiblePokemonIds(pokemons);
+}
+
+// Speichert die aktuell sichtbaren Pokemon-IDs für den Dialog.
+function updateVisiblePokemonIds(pokemons) {
+  pokemonState.visiblePokemonIds = pokemons.map((pokemon) => pokemon.id);
 }
 
 // Zeigt eine Meldung und leert den Kartenbereich.
@@ -223,6 +261,7 @@ function renderMessage(message) {
   document.getElementById("pokemon_grid").innerHTML = "";
   document.getElementById("message_container").innerHTML =
     getNotFoundTemplate(message);
+  updateVisiblePokemonIds([]);
 }
 
 // Reagiert auf den Klick einer Pokemon-Karte.
@@ -234,15 +273,44 @@ function handlePokemonCardClick(event) {
 
 // Lädt die Dialog-Daten und öffnet den Dialog.
 async function openPokemonDialog(pokemonId) {
+  const requestId = startDialogRequest();
   try {
     const pokemon = await fetchPokemonById(pokemonId);
-    pokemonState.activePokemonId = pokemon.id;
-    renderPokemonDialog(pokemon);
-    showPokemonDialog();
+    if (!isActiveDialogRequest(requestId)) return;
+    showLoadedPokemonDialog(pokemon);
+    endDialogRequest(requestId);
     await renderEvolutionSection(pokemon);
   } catch (error) {
+    endDialogRequest(requestId);
     renderMessage("Pokemon details could not be loaded.");
   }
+}
+
+// Zeigt die geladenen Pokemon-Daten im Dialog an.
+function showLoadedPokemonDialog(pokemon) {
+  pokemonState.activePokemonId = pokemon.id;
+  renderPokemonDialog(pokemon);
+  showPokemonDialog();
+}
+
+// Startet einen geschützten Dialog-Ladevorgang.
+function startDialogRequest() {
+  pokemonState.isDialogLoading = true;
+  pokemonState.dialogRequestId += 1;
+  toggleDialogNavigationButtons(true);
+  return pokemonState.dialogRequestId;
+}
+
+// Beendet den aktuellen Dialog-Ladevorgang.
+function endDialogRequest(requestId) {
+  if (!isActiveDialogRequest(requestId)) return;
+  pokemonState.isDialogLoading = false;
+  toggleDialogNavigationButtons(false);
+}
+
+// Prüft, ob die Dialog-Antwort noch aktuell ist.
+function isActiveDialogRequest(requestId) {
+  return pokemonState.dialogRequestId === requestId;
 }
 
 // Lädt und rendert die Evolution im geöffneten Dialog.
@@ -292,6 +360,7 @@ function connectDialogButtons() {
   connectDialogCloseButton();
   connectPreviousButton();
   connectNextButton();
+  toggleDialogNavigationButtons(false);
 }
 
 // Verbindet den Schließen-Button mit dem Dialog.
@@ -312,14 +381,36 @@ function connectNextButton() {
   nextButton.addEventListener("click", showNextPokemon);
 }
 
+// Schaltet die Dialog-Navigation passend zum Zustand.
+function toggleDialogNavigationButtons(isDisabled) {
+  const buttons = getDialogNavigationButtons();
+  buttons.forEach((button) => {
+    button.disabled = isDisabled || !hasDialogNavigation();
+  });
+}
+
+// Holt die Navigationsbuttons im geöffneten Dialog.
+function getDialogNavigationButtons() {
+  return document.querySelectorAll(
+    "[data-id='prev-button'], [data-id='next-button']",
+  );
+}
+
+// Prüft, ob mehr als ein sichtbares Pokemon navigierbar ist.
+function hasDialogNavigation() {
+  return pokemonState.visiblePokemonIds.length > 1;
+}
+
 // Zeigt das vorherige Pokemon im geöffneten Dialog.
 function showPreviousPokemon() {
+  if (pokemonState.isDialogLoading) return;
   const previousPokemonId = getPreviousPokemonId();
   openPokemonDialog(previousPokemonId);
 }
 
 // Zeigt das nächste Pokemon im geöffneten Dialog.
 function showNextPokemon() {
+  if (pokemonState.isDialogLoading) return;
   const nextPokemonId = getNextPokemonId();
   openPokemonDialog(nextPokemonId);
 }
@@ -327,10 +418,10 @@ function showNextPokemon() {
 // Holt die ID des vorherigen gerenderten Pokemon.
 function getPreviousPokemonId() {
   const currentIndex = getActivePokemonIndex();
-  const lastIndex = pokemonState.renderedPokemonIds.length - 1;
+  const lastIndex = pokemonState.visiblePokemonIds.length - 1;
   return (
-    pokemonState.renderedPokemonIds[currentIndex - 1] ||
-    pokemonState.renderedPokemonIds[lastIndex]
+    pokemonState.visiblePokemonIds[currentIndex - 1] ||
+    pokemonState.visiblePokemonIds[lastIndex]
   );
 }
 
@@ -338,14 +429,14 @@ function getPreviousPokemonId() {
 function getNextPokemonId() {
   const currentIndex = getActivePokemonIndex();
   return (
-    pokemonState.renderedPokemonIds[currentIndex + 1] ||
-    pokemonState.renderedPokemonIds[0]
+    pokemonState.visiblePokemonIds[currentIndex + 1] ||
+    pokemonState.visiblePokemonIds[0]
   );
 }
 
 // Holt die Position des aktuell geöffneten Pokemon.
 function getActivePokemonIndex() {
-  return pokemonState.renderedPokemonIds.indexOf(pokemonState.activePokemonId);
+  return pokemonState.visiblePokemonIds.indexOf(pokemonState.activePokemonId);
 }
 
 // Schließt den nativen Pokemon-Dialog.

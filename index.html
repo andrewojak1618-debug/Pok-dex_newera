@@ -76,11 +76,17 @@
     </main>
 
     <div id="loading_screen" class="loading_screen is_hidden">
-      <img
-        class="loading_logo"
-        src="./assets/icons/darkPok_favicon.png"
-        alt=""
-      />
+      <picture>
+        <source
+          srcset="./assets/icons/loading_voltball_red.webp"
+          type="image/webp"
+        />
+        <img
+          class="loading_logo"
+          src="./assets/icons/loading_voltball_red_small.png"
+          alt=""
+        />
+      </picture>
       <span>Loading Pokemon...</span>
     </div>
 
