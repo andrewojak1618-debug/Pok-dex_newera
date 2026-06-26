@@ -4,7 +4,6 @@
 @import url("./css/molecules/buttons.css");
 @import url("./css/molecules/dialog.css");
 @import url("./css/molecules/footer.css");
-@import url("./css/molecules/mediaquery.css");
 
 * {
   box-sizing: border-box;
@@ -99,8 +98,8 @@ body {
 
 .pokemon_grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(170px, 1fr));
-  gap: 48px 32px;
+  grid-template-columns: repeat(3, minmax(210px, 1fr));
+  gap: 56px 34px;
 }
 
 .message_container {
@@ -109,18 +108,139 @@ body {
 }
 
 .pokemon_detail_panel {
+  position: sticky;
+  top: 24px;
+  display: grid;
+  align-self: start;
+  place-items: center;
   min-height: calc(100vh - 104px);
+  padding: 34px 28px;
   border-radius: 38px 8px 38px 8px;
   backdrop-filter: blur(6px);
+  overflow: hidden;
   pointer-events: none;
+}
+
+.pokemon_detail_panel::before,
+.pokemon_detail_panel::after {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  border-radius: 28px 4px 28px 4px;
+  pointer-events: none;
+}
+
+.pokemon_detail_panel::before {
+  border: 1px solid var(--detail_panel_inner_border);
+}
+
+.pokemon_detail_panel::after {
+  background:
+    linear-gradient(90deg, var(--detail_accent) 0 76px, transparent 76px) left
+      top / 52% 1px no-repeat,
+    linear-gradient(180deg, var(--detail_accent) 0 76px, transparent 76px) left
+      top / 1px 52% no-repeat,
+    linear-gradient(270deg, var(--detail_accent) 0 76px, transparent 76px) right
+      bottom / 52% 1px no-repeat,
+    linear-gradient(0deg, var(--detail_accent) 0 76px, transparent 76px) right
+      bottom / 1px 52% no-repeat;
+}
+
+.detail_empty_state,
+.detail_panel_content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.detail_panel_content::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  width: min(76%, 250px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.detail_empty_state {
+  max-width: 300px;
+}
+
+.detail_empty_image_frame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(74%, 220px);
+  aspect-ratio: 1;
+  border-radius: 26px 4px 26px 4px;
+}
+
+.detail_empty_image_frame::before,
+.detail_empty_image_frame::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 18px 3px 18px 3px;
+  pointer-events: none;
+}
+
+.detail_empty_image_frame::after {
+  background:
+    linear-gradient(90deg, currentColor 0 42px, transparent 42px) left top / 50% 1px no-repeat,
+    linear-gradient(180deg, currentColor 0 42px, transparent 42px) left top / 1px 50% no-repeat,
+    linear-gradient(270deg, currentColor 0 42px, transparent 42px) right bottom / 50% 1px no-repeat,
+    linear-gradient(0deg, currentColor 0 42px, transparent 42px) right bottom / 1px 50% no-repeat;
+  opacity: 0.34;
+}
+
+.detail_panel_label,
+.detail_panel_number {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.detail_empty_state h2,
+.detail_panel_name {
+  font-size: 2.15rem;
+  line-height: 1.1;
+}
+
+.detail_empty_state p {
+  max-width: 260px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.detail_panel_stats {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(42px, 1fr));
+  gap: 6px;
+  width: 100%;
+}
+
+.detail_panel_section_title {
+  margin-top: 4px;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.detail_panel_stats .dialog_stat {
+  min-height: 56px;
+  padding: 8px 5px;
 }
 
 .pokemon_number {
   font-size: 1rem;
+  line-height: 1;
 }
 
 .pokemon_name {
-  font-size: 1.45rem;
+  font-size: 1.52rem;
   line-height: 1.1;
 }
 
@@ -135,7 +255,7 @@ body {
   min-width: 74px;
   border: 1px solid currentColor;
   border-radius: 6px;
-  padding: 5px 12px;
+  padding: 6px 13px;
   font-size: 1rem;
   line-height: 1;
 }

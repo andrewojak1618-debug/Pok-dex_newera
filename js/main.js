@@ -4,6 +4,7 @@ async function initPokedex() {
   connectSearchForm();
   connectPokemonGrid();
   connectPokemonDialog();
+  renderEmptyDetailPanel();
   await loadInitialPokemon();
 }
 
@@ -289,8 +290,24 @@ async function openPokemonDialog(pokemonId) {
 // Zeigt die geladenen Pokemon-Daten im Dialog an.
 function showLoadedPokemonDialog(pokemon) {
   pokemonState.activePokemonId = pokemon.id;
+  renderLastSelectedPokemon(pokemon);
   renderPokemonDialog(pokemon);
   showPokemonDialog();
+}
+
+// Rendert den leeren Startzustand im Detailpanel.
+function renderEmptyDetailPanel() {
+  getDetailPanel().innerHTML = getEmptyDetailPanelTemplate();
+}
+
+// Rendert das zuletzt ausgewählte Pokemon im Detailpanel.
+function renderLastSelectedPokemon(pokemon) {
+  getDetailPanel().innerHTML = getDetailPanelTemplate(pokemon);
+}
+
+// Holt das rechte Detailpanel aus dem DOM.
+function getDetailPanel() {
+  return document.querySelector(".pokemon_detail_panel");
 }
 
 // Startet einen geschützten Dialog-Ladevorgang.

@@ -35,14 +35,17 @@
 }
 
 .pokemon_card {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  min-height: 220px;
+  justify-content: flex-start;
+  gap: 13px;
+  min-height: 252px;
   border: 1px solid var(--pokemon_card_border);
-  border-radius: 22px 4px 22px 4px;
-  padding: 16px 14px 18px;
+  border-radius: 28px 4px 28px 4px;
+  padding: 56px 16px 22px;
   background:
     linear-gradient(
       135deg,
@@ -52,13 +55,39 @@
     var(--pokemon_card_bg_base);
   box-shadow:
     0 0 26px var(--pokemon_card_shadow),
-    inset 0 0 36px var(--pokemon_card_inner_shadow);
+    inset 0 0 36px var(--pokemon_card_inner_shadow),
+    inset 0 1px 0 var(--pokemon_card_top_light);
   backdrop-filter: blur(6px);
   cursor: pointer;
+  overflow: visible;
   transition:
+    background 160ms ease,
     border-color 160ms ease,
     box-shadow 160ms ease,
     transform 160ms ease;
+}
+
+.pokemon_card::before,
+.pokemon_card::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  z-index: -1;
+  border-radius: 20px 3px 20px 3px;
+  pointer-events: none;
+}
+
+.pokemon_card::before {
+  border: 1px solid var(--pokemon_card_inner_border);
+}
+
+.pokemon_card::after {
+  background:
+    linear-gradient(90deg, currentColor 0 44px, transparent 44px) left top / 50% 1px no-repeat,
+    linear-gradient(180deg, currentColor 0 44px, transparent 44px) left top / 1px 50% no-repeat,
+    linear-gradient(270deg, currentColor 0 44px, transparent 44px) right bottom / 50% 1px no-repeat,
+    linear-gradient(0deg, currentColor 0 44px, transparent 44px) right bottom / 1px 50% no-repeat;
+  opacity: 0.42;
 }
 
 .pokemon_card:hover,
@@ -66,8 +95,9 @@
   border-color: var(--neon_purple_strong);
   box-shadow:
     0 0 34px var(--pokemon_card_hover_shadow),
+    0 0 2px var(--pokemon_card_hover_shadow),
     inset 0 0 44px var(--pokemon_card_hover_inner_shadow);
-  transform: translateY(-4px);
+  transform: translateY(-6px);
 }
 
 .load_more_button {
@@ -92,6 +122,7 @@
   position: absolute;
   top: 14px;
   right: 14px;
+  z-index: 2;
   display: grid;
   place-items: center;
   width: 64px;
@@ -129,10 +160,4 @@
 .dialog_arrow_button:focus-visible {
   border-color: var(--neon_purple_strong);
   box-shadow: 0 0 24px var(--pokemon_card_hover_shadow);
-}
-
-@media screen and (max-width: 720px) {
-  .pokemon_card {
-    min-height: 212px;
-  }
 }

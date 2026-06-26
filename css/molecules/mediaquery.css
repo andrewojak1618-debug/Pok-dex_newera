@@ -18,6 +18,7 @@
   }
 
   .pokemon_detail_panel {
+    position: static;
     min-height: 420px;
   }
 }
@@ -48,6 +49,10 @@
     gap: 24px;
   }
 
+  .pokemon_card {
+    min-height: 238px;
+  }
+
   .search_bar {
     grid-template-columns: minmax(0, 1fr) 72px;
     min-height: 68px;
@@ -64,11 +69,11 @@
 
   .dialog_card {
     min-height: 520px;
-    padding: 52px 22px 28px;
+    padding: 42px 22px 26px;
   }
 
   .dialog_pokemon_image {
-    height: 220px;
+    height: 140px;
   }
 
   .dialog_measures {
@@ -76,11 +81,15 @@
   }
 
   .dialog_stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .dialog_navigation {
     gap: 10px;
+  }
+
+  .detail_panel_image {
+    height: 230px;
   }
 }
 
@@ -101,7 +110,7 @@
 
   .dialog_pokemon_image {
     width: min(68vw, 220px);
-    height: 180px;
+    height: 120px;
   }
 
   .dialog_measures,
@@ -112,6 +121,10 @@
   .dialog_stat {
     min-height: 50px;
     padding: 8px 6px;
+  }
+
+  .dialog_stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .dialog_evolution {
@@ -131,6 +144,32 @@
   .dialog_evolution_item b,
   .dialog_evolution_level {
     font-size: 0.76rem;
+  }
+
+  .pokemon_detail_panel {
+    padding: 22px 16px;
+  }
+
+  .detail_empty_state h2,
+  .detail_panel_name {
+    font-size: 1.75rem;
+  }
+
+  .detail_panel_image {
+    height: 190px;
+  }
+
+  .detail_empty_image {
+    width: 76%;
+    height: 76%;
+  }
+
+  .detail_empty_image_frame {
+    width: min(60%, 170px);
+  }
+
+  .detail_panel_stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -153,7 +192,7 @@
 
   .dialog_pokemon_image {
     width: min(66vw, 190px);
-    height: 118px;
+    height: 104px;
   }
 
   .dialog_stats {

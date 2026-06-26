@@ -30,6 +30,49 @@ function getNotFoundTemplate(message) {
   return `<p class="not_found_message" data-id="not-found">${message}</p>`;
 }
 
+// Baut den leeren Zustand für das Detailpanel.
+function getEmptyDetailPanelTemplate() {
+  return `
+    <article class="detail_empty_state">
+      ${getEmptyDetailImageTemplate()}
+      <span class="detail_panel_label">Last selected</span>
+      <h2>Select a Pokemon</h2>
+      <p>Your last opened Pokemon will stay visible here.</p>
+    </article>
+  `;
+}
+
+// Baut das Platzhalter-Bild für das leere Detailpanel.
+function getEmptyDetailImageTemplate() {
+  return `<span class="detail_empty_image_frame"><img class="detail_empty_image" src="./assets/gifs-icon/waiting_ball.gif" alt="" /></span>`;
+}
+
+// Baut das rechte Detailpanel für das zuletzt gewählte Pokemon.
+function getDetailPanelTemplate(pokemon) {
+  return `
+    <article class="detail_panel_content ${pokemon.types[0]}_detail">
+      ${getDetailPanelImageTemplate(pokemon)}
+      <span class="detail_panel_number">No. ${pokemon.id}</span>
+      <h2 class="detail_panel_name">${pokemon.name}</h2>
+      <span class="pokemon_types">${getPokemonTypesTemplate(pokemon.types)}</span>
+      <h3 class="detail_panel_section_title">Profile</h3>
+      ${getPokemonMeasureTemplate(pokemon)}
+      <h3 class="detail_panel_section_title">Stats</h3>
+      <div class="detail_panel_stats">${getDetailStatsTemplate(pokemon.stats)}</div>
+    </article>
+  `;
+}
+
+// Baut das Bild für das rechte Detailpanel.
+function getDetailPanelImageTemplate(pokemon) {
+  return `<img class="detail_panel_image" src="${pokemon.image}" alt="${pokemon.name}" />`;
+}
+
+// Baut die wichtigsten Stats für das Detailpanel.
+function getDetailStatsTemplate(stats) {
+  return stats.map((stat) => getPokemonStatTemplate(stat)).join("");
+}
+
 // Baut den Inhalt für den Pokemon-Dialog.
 function getPokemonDialogContentTemplate(pokemon) {
   return `
@@ -38,10 +81,19 @@ function getPokemonDialogContentTemplate(pokemon) {
     <span class="dialog_pokemon_number">No. ${pokemon.id}</span>
     <h2 class="dialog_pokemon_name">${pokemon.name}</h2>
     <span class="pokemon_types">${getPokemonTypesTemplate(pokemon.types)}</span>
-    ${getPokemonMeasureTemplate(pokemon)}
-    <div class="dialog_stats">${getPokemonStatsTemplate(pokemon.stats)}</div>
+    ${getDialogProfileTemplate(pokemon)}
     ${getEvolutionContentTemplate()}
     ${getDialogNavigationTemplate()}
+  `;
+}
+
+// Baut Profile und Stats für den Dialog.
+function getDialogProfileTemplate(pokemon) {
+  return `
+    <h3 class="dialog_section_title">Profile</h3>
+    ${getPokemonMeasureTemplate(pokemon)}
+    <h3 class="dialog_section_title">Stats</h3>
+    <div class="dialog_stats">${getPokemonStatsTemplate(pokemon.stats)}</div>
   `;
 }
 

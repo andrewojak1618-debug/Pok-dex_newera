@@ -27,6 +27,12 @@
   --pokemon_card_inner_shadow: rgba(89, 189, 255, 0.08);
   --pokemon_card_hover_shadow: rgba(195, 85, 255, 0.46);
   --pokemon_card_hover_inner_shadow: rgba(111, 213, 255, 0.14);
+  --pokemon_card_inner_border: rgba(216, 231, 255, 0.12);
+  --pokemon_card_top_light: rgba(255, 255, 255, 0.2);
+  --pokemon_image_glow: rgba(96, 211, 255, 0.16);
+  --detail_accent: rgba(96, 211, 255, 0.72);
+  --detail_panel_inner_border: rgba(96, 211, 255, 0.18);
+  --detail_image_ring: rgba(96, 211, 255, 0.3);
   --logo_shadow: rgba(197, 92, 255, 0.8);
   --pokemon_image_shadow: rgba(0, 0, 0, 0.6);
   --grass_color: #72ff9c;
@@ -95,11 +101,84 @@ body {
 .pokemon_detail_panel {
   border: 1px solid var(--neon_blue);
   background:
+    radial-gradient(circle at 50% 18%, rgba(96, 211, 255, 0.16), transparent 32%),
     linear-gradient(135deg, rgba(27, 16, 56, 0.5), rgba(4, 12, 28, 0.52)),
     var(--panel_dark);
   box-shadow:
     0 0 38px rgba(78, 205, 255, 0.18),
     inset 0 0 54px rgba(71, 196, 255, 0.1);
+}
+
+.detail_empty_state,
+.detail_panel_content {
+  color: var(--text_light);
+}
+
+.detail_panel_label,
+.detail_panel_number,
+.detail_empty_state p {
+  color: var(--dialog_text_muted);
+}
+
+.detail_empty_state h2,
+.detail_panel_name {
+  color: var(--text_soft);
+  text-shadow: 0 0 18px rgba(188, 100, 255, 0.72);
+}
+
+.detail_empty_image_frame {
+  border: 1px solid rgba(209, 142, 255, 0.42);
+  color: rgba(209, 142, 255, 0.78);
+  background:
+    linear-gradient(135deg, rgba(27, 16, 56, 0.4), rgba(4, 12, 28, 0.42)),
+    rgba(5, 8, 20, 0.3);
+  box-shadow:
+    0 0 22px rgba(162, 76, 255, 0.16),
+    inset 0 0 28px rgba(96, 211, 255, 0.08);
+}
+
+.detail_empty_image_frame::before {
+  border: 1px solid rgba(216, 231, 255, 0.1);
+}
+
+.detail_panel_content::before {
+  border: 1px solid var(--detail_image_ring);
+  background:
+    radial-gradient(circle, rgba(96, 211, 255, 0.18), transparent 58%),
+    radial-gradient(circle, transparent 48%, rgba(96, 211, 255, 0.2) 49%, transparent 52%);
+  box-shadow: 0 0 34px rgba(96, 211, 255, 0.16);
+}
+
+.detail_panel_section_title {
+  color: var(--text_muted);
+}
+
+.detail_panel_stats .dialog_stat {
+  border-color: var(--neon_blue);
+}
+
+.detail_panel_stats .dialog_stat:nth-child(1) {
+  border-color: #ff677d;
+}
+
+.detail_panel_stats .dialog_stat:nth-child(2) {
+  border-color: var(--fire_color);
+}
+
+.detail_panel_stats .dialog_stat:nth-child(3) {
+  border-color: var(--electric_color);
+}
+
+.detail_panel_stats .dialog_stat:nth-child(4) {
+  border-color: var(--water_color);
+}
+
+.detail_panel_stats .dialog_stat:nth-child(5) {
+  border-color: var(--grass_color);
+}
+
+.detail_panel_stats .dialog_stat:nth-child(6) {
+  border-color: var(--poison_color);
 }
 
 .pokemon_number {
@@ -112,7 +191,10 @@ body {
 }
 
 .type_badge {
-  background: rgba(5, 8, 20, 0.52);
+  background: rgba(5, 8, 20, 0.64);
+  box-shadow:
+    0 0 12px color-mix(in srgb, currentColor 32%, transparent),
+    inset 0 0 12px color-mix(in srgb, currentColor 12%, transparent);
 }
 
 .grass_type {
@@ -189,9 +271,17 @@ body {
   border-color: var(--grass_color);
 }
 
+.grass_card {
+  --pokemon_card_border: color-mix(in srgb, var(--grass_color) 52%, var(--neon_purple));
+}
+
 .poison_card,
 .poison_type {
   border-color: var(--poison_color);
+}
+
+.poison_card {
+  --pokemon_card_border: color-mix(in srgb, var(--poison_color) 68%, var(--neon_blue));
 }
 
 .fire_card,
@@ -199,11 +289,20 @@ body {
   border-color: var(--fire_color);
 }
 
+.fire_card {
+  --pokemon_card_border: color-mix(in srgb, var(--fire_color) 64%, var(--neon_purple));
+}
+
 .water_card,
 .flying_card,
 .water_type,
 .flying_type {
   border-color: var(--water_color);
+}
+
+.water_card,
+.flying_card {
+  --pokemon_card_border: color-mix(in srgb, var(--water_color) 66%, var(--neon_purple));
 }
 
 .bug_card,
@@ -284,6 +383,7 @@ body {
   border: 1px solid var(--neon_blue);
   color: var(--text_light);
   background:
+    radial-gradient(circle at 50% 15%, rgba(96, 211, 255, 0.14), transparent 32%),
     linear-gradient(135deg, rgba(27, 16, 56, 0.64), rgba(4, 12, 28, 0.72)),
     var(--dialog_card_bg);
   box-shadow:
@@ -300,6 +400,18 @@ body {
   color: var(--text_muted);
 }
 
+.dialog_pokemon_number::before {
+  border: 1px solid var(--detail_image_ring);
+  background:
+    radial-gradient(circle, rgba(96, 211, 255, 0.18), transparent 58%),
+    radial-gradient(circle, transparent 48%, rgba(96, 211, 255, 0.2) 49%, transparent 52%);
+  box-shadow: 0 0 34px rgba(96, 211, 255, 0.16);
+}
+
+.dialog_section_title {
+  color: var(--text_muted);
+}
+
 .dialog_pokemon_text {
   color: var(--dialog_text_muted);
 }
@@ -307,7 +419,12 @@ body {
 .dialog_measure {
   border: 1px solid var(--neon_blue);
   color: var(--text_muted);
-  background: var(--search_button_bg);
+  background:
+    linear-gradient(90deg, rgba(96, 211, 255, 0.08), transparent),
+    var(--search_button_bg);
+  box-shadow:
+    0 0 16px rgba(96, 211, 255, 0.12),
+    inset 0 0 18px rgba(96, 211, 255, 0.08);
 }
 
 .dialog_measure b {
@@ -321,6 +438,30 @@ body {
   box-shadow: inset 0 0 18px rgba(209, 142, 255, 0.08);
 }
 
+.dialog_stats .dialog_stat:nth-child(1) {
+  border-color: #ff677d;
+}
+
+.dialog_stats .dialog_stat:nth-child(2) {
+  border-color: var(--fire_color);
+}
+
+.dialog_stats .dialog_stat:nth-child(3) {
+  border-color: var(--electric_color);
+}
+
+.dialog_stats .dialog_stat:nth-child(4) {
+  border-color: var(--water_color);
+}
+
+.dialog_stats .dialog_stat:nth-child(5) {
+  border-color: var(--grass_color);
+}
+
+.dialog_stats .dialog_stat:nth-child(6) {
+  border-color: var(--poison_color);
+}
+
 .dialog_stat b {
   color: var(--text_soft);
 }
@@ -332,6 +473,12 @@ body {
 .dialog_evolution_item,
 .dialog_evolution_level {
   color: var(--text_muted);
+}
+
+.dialog_evolution_level {
+  border: 1px solid var(--neon_blue);
+  background: var(--search_button_bg);
+  box-shadow: inset 0 0 14px rgba(96, 211, 255, 0.08);
 }
 
 .dialog_evolution_message {
