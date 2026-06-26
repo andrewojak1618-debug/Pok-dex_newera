@@ -65,12 +65,12 @@ No build tools are required. The project can run with a local development server
 
 ## Tech Stack
 
-| Technology | Purpose |
-| --- | --- |
-| HTML5 | Page structure |
-| CSS3 | Cyber-neon design, layout, responsive styling |
-| JavaScript ES6+ | API requests, rendering, caching, interactions |
-| PokeAPI | Pokemon data, images, species and evolution data |
+| Technology      | Purpose                                          |
+| --------------- | ------------------------------------------------ |
+| HTML5           | Page structure                                   |
+| CSS3            | Cyber-neon design, layout, responsive styling    |
+| JavaScript ES6+ | API requests, rendering, caching, interactions   |
+| PokeAPI         | Pokemon data, images, species and evolution data |
 
 ## Data Source
 
@@ -143,18 +143,18 @@ http://localhost:<live-server-port>
 
 ## Features
 
-| Feature | Description |
-| --- | --- |
-| Fetch-then-render | Data is loaded before the UI is rendered. |
-| Caching | Already loaded Pokemon, species and evolution data are reused. |
-| Lazy loading | Evolution chains are fetched only after a Pokemon card is clicked. |
-| Loading feedback | A loading screen gives visual feedback during API requests. |
-| Search | Search starts with at least three entered letters. |
-| Load More | More Pokemon can be loaded in controlled batches. |
-| Detail panel | The last selected Pokemon stays visible on the right side. |
-| Dialog view | Shows Pokemon details, stats, evolution and navigation. |
-| Responsive design | Layout is optimized down to small mobile widths. |
-| Data attributes | Required `data-id` attributes are included for testability. |
+| Feature           | Description                                                        |
+| ----------------- | ------------------------------------------------------------------ |
+| Fetch-then-render | Data is loaded before the UI is rendered.                          |
+| Caching           | Already loaded Pokemon, species and evolution data are reused.     |
+| Lazy loading      | Evolution chains are fetched only after a Pokemon card is clicked. |
+| Loading feedback  | A loading screen gives visual feedback during API requests.        |
+| Search            | Search starts with at least three entered letters.                 |
+| Load More         | More Pokemon can be loaded in controlled batches.                  |
+| Detail panel      | The last selected Pokemon stays visible on the right side.         |
+| Dialog view       | Shows Pokemon details, stats, evolution and navigation.            |
+| Responsive design | Layout is optimized down to small mobile widths.                   |
+| Data attributes   | Required `data-id` attributes are included for testability.        |
 
 ## GitHub Pages
 
@@ -184,4 +184,3 @@ This project is built as a frontend learning project. Important practice areas a
 - keeping functions small and readable
 - building responsive layouts
 - using caching and lazy loading deliberately
-
