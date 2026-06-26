@@ -121,6 +121,12 @@ body.dialog_is_open {
   font-size: 0.82rem;
 }
 
+.dialog_evolution_message {
+  margin: 0;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
 .dialog_navigation {
   display: flex;
   justify-content: space-between;

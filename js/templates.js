@@ -40,7 +40,7 @@ function getPokemonDialogContentTemplate(pokemon) {
     <span class="pokemon_types">${getPokemonTypesTemplate(pokemon.types)}</span>
     ${getPokemonMeasureTemplate(pokemon)}
     <div class="dialog_stats">${getPokemonStatsTemplate(pokemon.stats)}</div>
-    ${getEvolutionTemplate(pokemon.evolutions)}
+    ${getEvolutionContentTemplate()}
     ${getDialogNavigationTemplate()}
   `;
 }
@@ -104,9 +104,24 @@ function formatWeight(weight) {
 }
 
 // Baut die Evolution-Sektion für den Dialog.
+function getEvolutionContentTemplate() {
+  return `<section class="dialog_evolution" id="dialog_evolution_content">${getEvolutionLoadingTemplate()}</section>`;
+}
+
+// Baut den Ladezustand für die Evolution.
+function getEvolutionLoadingTemplate() {
+  return `<p class="dialog_evolution_message">Loading evolution...</p>`;
+}
+
+// Baut den geladenen Evolution-Inhalt für den Dialog.
 function getEvolutionTemplate(evolutions) {
-  if (!evolutions.length) return "";
-  return `<section class="dialog_evolution"><h3>Evolution</h3><div class="dialog_evolution_list">${getEvolutionItemsTemplate(evolutions)}</div></section>`;
+  if (!evolutions.length) return getEvolutionErrorTemplate();
+  return `<h3>Evolution</h3><div class="dialog_evolution_list">${getEvolutionItemsTemplate(evolutions)}</div>`;
+}
+
+// Baut die Fehlermeldung für nicht verfügbare Evolution.
+function getEvolutionErrorTemplate() {
+  return `<p class="dialog_evolution_message">Evolution unavailable.</p>`;
 }
 
 // Baut alle Evolution-Stufen für den Dialog.

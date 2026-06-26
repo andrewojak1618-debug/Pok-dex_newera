@@ -236,31 +236,38 @@ function handlePokemonCardClick(event) {
 async function openPokemonDialog(pokemonId) {
   try {
     const pokemon = await fetchPokemonById(pokemonId);
-    const dialogPokemon = await getDialogPokemonData(pokemon);
     pokemonState.activePokemonId = pokemon.id;
-    renderPokemonDialog(dialogPokemon);
+    renderPokemonDialog(pokemon);
     showPokemonDialog();
+    await renderEvolutionSection(pokemon);
   } catch (error) {
     renderMessage("Pokemon details could not be loaded.");
   }
 }
 
-// Ergänzt Dialog-Daten mit lazy geladenen Evolutionsdaten.
-async function getDialogPokemonData(pokemon) {
-  return {
-    ...pokemon,
-    evolutions: await getSafeEvolutionChain(pokemon),
-  };
+// Lädt und rendert die Evolution im geöffneten Dialog.
+async function renderEvolutionSection(pokemon) {
+  try {
+    const evolutions = await fetchEvolutionChain(pokemon);
+    if (!isActivePokemon(pokemon.id)) return;
+    updateEvolutionSection(getEvolutionTemplate(evolutions));
+  } catch (error) {
+    if (isActivePokemon(pokemon.id)) {
+      updateEvolutionSection(getEvolutionErrorTemplate());
+    }
+  }
 }
 
+// Prüft, ob das geladene Pokemon noch im Dialog aktiv ist.
+function isActivePokemon(pokemonId) {
+  return pokemonState.activePokemonId === pokemonId;
+}
 
-// Lädt Evolutionsdaten ohne den Dialog bei Fehlern zu blockieren.
-async function getSafeEvolutionChain(pokemon) {
-  try {
-    return await fetchEvolutionChain(pokemon);
-  } catch (error) {
-    return [];
-  }
+// Aktualisiert nur den Evolution-Bereich im Dialog.
+function updateEvolutionSection(template) {
+  const evolutionContent = document.getElementById("dialog_evolution_content");
+  if (!evolutionContent) return;
+  evolutionContent.innerHTML = template;
 }
 
 // Rendert die echten Pokemon-Daten in den Dialog.
