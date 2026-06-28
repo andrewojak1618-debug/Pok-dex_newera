@@ -6,12 +6,14 @@ function getPokemonCardsTemplate(pokemons) {
 // Baut das HTML für eine einzelne Pokemon-Karte.
 function getPokemonCardTemplate(pokemon) {
   return `
-    <button class="pokemon_card ${pokemon.types[0]}_card" data-id="card" data-pokemon-id="${pokemon.id}" type="button">
-      <img class="pokemon_card_image" data-id="card-image" src="${pokemon.image}" alt="${pokemon.name}" />
-      <span class="pokemon_number">No. ${pokemon.id}</span>
-      <h2 class="pokemon_name">${pokemon.name}</h2>
-      <span class="pokemon_types">${getPokemonTypesTemplate(pokemon.types)}</span>
-    </button>
+    <li class="pokemon_list_item">
+      <button class="pokemon_card ${pokemon.types[0]}_card" data-id="card" data-pokemon-id="${pokemon.id}" type="button" aria-label="Open details for ${pokemon.name}">
+        <img class="pokemon_card_image" data-id="card-image" src="${pokemon.image}" alt="${pokemon.name} official artwork" />
+        <span class="pokemon_number">No. ${pokemon.id}</span>
+        <h2 class="pokemon_name">${pokemon.name}</h2>
+        <span class="pokemon_types">${getPokemonTypesTemplate(pokemon.types)}</span>
+      </button>
+    </li>
   `;
 }
 
@@ -27,7 +29,7 @@ function getPokemonTypeTemplate(type) {
 
 // Baut die Meldung, wenn keine Pokemon gefunden wurden.
 function getNotFoundTemplate(message) {
-  return `<p class="not_found_message" data-id="not-found">${message}</p>`;
+  return `<li class="not_found_item"><p class="not_found_message" data-id="not-found" role="status" aria-live="polite">${message}</p></li>`;
 }
 
 // Baut den leeren Zustand für das Detailpanel.
@@ -44,7 +46,7 @@ function getEmptyDetailPanelTemplate() {
 
 // Baut das Platzhalter-Bild für das leere Detailpanel.
 function getEmptyDetailImageTemplate() {
-  return `<span class="detail_empty_image_frame"><img class="detail_empty_image" src="./assets/gifs-icon/waiting_ball.gif" alt="" /></span>`;
+  return `<span class="detail_empty_image_frame"><img class="detail_empty_image" src="./assets/gifs-icon/waiting_ball.gif" alt="Waiting for Pokemon selection" /></span>`;
 }
 
 // Baut das rechte Detailpanel für das zuletzt gewählte Pokemon.
@@ -57,6 +59,7 @@ function getDetailPanelTemplate(pokemon) {
       <span class="pokemon_types">${getPokemonTypesTemplate(pokemon.types)}</span>
       ${getDetailPanelProfileTemplate(pokemon)}
       ${getDetailEvolutionContentTemplate()}
+      ${getDetailNavigationTemplate()}
     </article>
   `;
 }
@@ -73,7 +76,7 @@ function getDetailPanelProfileTemplate(pokemon) {
 
 // Baut das Bild für das rechte Detailpanel.
 function getDetailPanelImageTemplate(pokemon) {
-  return `<img class="detail_panel_image" src="${pokemon.image}" alt="${pokemon.name}" />`;
+  return `<img class="detail_panel_image" src="${pokemon.image}" alt="${pokemon.name} official artwork" />`;
 }
 
 // Baut die Evolution-Sektion für das rechte Detailpanel.
@@ -84,6 +87,11 @@ function getDetailEvolutionContentTemplate() {
 // Baut die wichtigsten Stats für das Detailpanel.
 function getDetailStatsTemplate(stats) {
   return stats.map((stat) => getPokemonStatTemplate(stat)).join("");
+}
+
+// Baut die Navigation für das rechte Detailpanel.
+function getDetailNavigationTemplate() {
+  return `<div class="detail_navigation"><button class="detail_arrow_button" type="button" aria-label="Show previous Pokemon">Previous</button><button class="detail_arrow_button" type="button" aria-label="Show next Pokemon">Next</button></div>`;
 }
 
 // Baut den Inhalt für den Pokemon-Dialog.
@@ -112,12 +120,12 @@ function getDialogProfileTemplate(pokemon) {
 
 // Baut den Schließen-Button für den Dialog.
 function getCloseDialogButtonTemplate() {
-  return `<button class="close_dialog_button" data-id="close-dialog-button" type="button" aria-label="Close Pokemon details"></button>`;
+  return `<button class="close_dialog_button" data-id="close-dialog-button" type="button" aria-label="Close Pokemon details" title="Close Pokemon details"></button>`;
 }
 
 // Baut das große Pokemon-Bild für den Dialog.
 function getDialogImageTemplate(pokemon) {
-  return `<img class="dialog_pokemon_image" data-id="dialog-image" src="${pokemon.image}" alt="${pokemon.name}" />`;
+  return `<img class="dialog_pokemon_image" data-id="dialog-image" src="${pokemon.image}" alt="${pokemon.name} official artwork" />`;
 }
 
 // Baut Height und Weight für den Dialog.
@@ -200,7 +208,7 @@ function getEvolutionItemsTemplate(evolutions) {
 
 // Baut eine einzelne Evolution-Stufe mit optionalem Level.
 function getEvolutionItemTemplate(evolution, index) {
-  return `${getEvolutionLevelTemplate(evolution, index)}<span class="dialog_evolution_item"><img src="${evolution.image}" alt="${evolution.name}" /><b>${evolution.name}</b></span>`;
+  return `${getEvolutionLevelTemplate(evolution, index)}<span class="dialog_evolution_item"><img src="${evolution.image}" alt="${evolution.name} official artwork" /><b>${evolution.name}</b></span>`;
 }
 
 // Baut das Level zwischen zwei Evolution-Stufen.
@@ -211,5 +219,5 @@ function getEvolutionLevelTemplate(evolution, index) {
 
 // Baut die Navigation für den Dialog.
 function getDialogNavigationTemplate() {
-  return `<div class="dialog_navigation"><button class="dialog_arrow_button" data-id="prev-button" type="button">Previous</button><button class="dialog_arrow_button" data-id="next-button" type="button">Next</button></div>`;
+  return `<div class="dialog_navigation"><button class="dialog_arrow_button" data-id="prev-button" type="button" aria-label="Show previous Pokemon">Previous</button><button class="dialog_arrow_button" data-id="next-button" type="button" aria-label="Show next Pokemon">Next</button></div>`;
 }

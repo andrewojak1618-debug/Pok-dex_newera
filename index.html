@@ -14,6 +14,8 @@
     <script src="./js/globalState.js" defer></script>
     <script src="./js/templates.js" defer></script>
     <script src="./js/pokemonApi.js" defer></script>
+    <script src="./js/search.js" defer></script>
+    <script src="./js/pokemonView.js" defer></script>
     <script src="./js/main.js" defer></script>
   </head>
   <body>
@@ -27,7 +29,7 @@
         <h1 class="page_title">DarkDex</h1>
       </div>
 
-      <form class="search_bar">
+      <form class="search_bar" role="search" aria-label="Pokemon search">
         <label class="screen_reader_text" for="pokemon_search">
           Search your Pokemon
         </label>
@@ -38,7 +40,7 @@
           type="search"
           name="pokemon_search"
           minlength="3"
-          placeholder="Search your Pokemon"
+          placeholder="Search"
           autocomplete="off"
         />
         <button
@@ -55,17 +57,18 @@
 
     <main id="app" data-id="content" class="pokedex_shell">
       <section class="pokedex_list_panel" aria-label="Pokemon list">
-        <div
+        <ol
           id="pokemon_grid"
           class="pokemon_grid"
           aria-label="Pokemon cards"
-        ></div>
+        ></ol>
         <div id="message_container" class="message_container"></div>
         <button
           id="load_more_button"
           class="load_more_button"
           data-id="load-more-button"
           type="button"
+          aria-label="Load 20 more Pokemon"
         >
           Load More
         </button>
@@ -74,7 +77,12 @@
       <aside class="pokemon_detail_panel" aria-label="Pokemon details"></aside>
     </main>
 
-    <div id="loading_screen" class="loading_screen is_hidden">
+    <div
+      id="loading_screen"
+      class="loading_screen is_hidden"
+      role="status"
+      aria-live="polite"
+    >
       <picture>
         <source
           srcset="./assets/icons/loading_voltball_red.webp"
@@ -83,7 +91,7 @@
         <img
           class="loading_logo"
           src="./assets/icons/loading_voltball_red_small.png"
-          alt=""
+          alt="Loading Pokemon"
         />
       </picture>
       <span>Loading Pokemon...</span>
@@ -96,6 +104,7 @@
           data-id="close-dialog-button"
           type="button"
           aria-label="Close Pokemon details"
+          title="Close Pokemon details"
         >
           <span></span>
         </button>
@@ -117,6 +126,7 @@
             class="dialog_arrow_button"
             data-id="prev-button"
             type="button"
+            aria-label="Show previous Pokemon"
           >
             Previous
           </button>
@@ -124,6 +134,7 @@
             class="dialog_arrow_button"
             data-id="next-button"
             type="button"
+            aria-label="Show next Pokemon"
           >
             Next
           </button>

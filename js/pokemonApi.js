@@ -15,6 +15,40 @@ async function fetchPokemonByName(pokemonName) {
 }
 
 
+// Lädt alle Pokemon, deren Name den Suchbegriff enthält.
+async function fetchPokemonsBySearchValue(searchValue) {
+  const pokemonNames = await fetchMatchingPokemonNames(searchValue);
+  const pokemonPromises = pokemonNames.map((name) => fetchPokemonByName(name));
+  const pokemons = await Promise.all(pokemonPromises);
+  return pokemons.filter((pokemon) => pokemon);
+}
+
+
+// Filtert die gecachte Pokemon-Liste nach Teiltreffern.
+async function fetchMatchingPokemonNames(searchValue) {
+  const pokemonList = await fetchPokemonNameList();
+  return pokemonList
+    .filter((pokemon) => pokemon.name.includes(searchValue))
+    .map((pokemon) => pokemon.name);
+}
+
+
+// Lädt die Pokemon-Namensliste oder nutzt den Cache.
+async function fetchPokemonNameList() {
+  if (pokemonState.pokemonListCache) return pokemonState.pokemonListCache;
+  pokemonState.pokemonListCache = await requestPokemonNameList();
+  return pokemonState.pokemonListCache;
+}
+
+
+// Holt die Pokemon-Namensliste aus der PokeAPI.
+async function requestPokemonNameList() {
+  const listUrl = `${pokemonState.baseUrl}/pokemon?limit=${pokemonState.maxPokemonId}`;
+  const listData = await requestJson(listUrl);
+  return listData.results;
+}
+
+
 // Holt ein Pokemon direkt aus der API und speichert es im Cache.
 async function requestPokemon(searchValue) {
   const pokemonUrl = `${pokemonState.baseUrl}/pokemon/${encodeURIComponent(searchValue)}`;

@@ -63,6 +63,7 @@
   align-items: center;
   justify-content: flex-start;
   gap: 13px;
+  width: 100%;
   min-height: 252px;
   border: 1px solid var(--pokemon_card_border);
   border-radius: 28px 4px 28px 4px;
@@ -172,7 +173,8 @@
   transform: scale(1.08);
 }
 
-.dialog_arrow_button {
+.dialog_arrow_button,
+.detail_arrow_button {
   flex: 1;
   border: 1px solid var(--neon_purple);
   border-radius: 16px 4px 16px 4px;
@@ -183,7 +185,9 @@
 }
 
 .dialog_arrow_button:hover,
-.dialog_arrow_button:focus-visible {
+.dialog_arrow_button:focus-visible,
+.detail_arrow_button:hover,
+.detail_arrow_button:focus-visible {
   border-color: var(--neon_purple_strong);
   box-shadow: 0 0 24px var(--pokemon_card_hover_shadow);
 }
