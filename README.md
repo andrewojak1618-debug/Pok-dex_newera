@@ -26,8 +26,8 @@
 
 <div align="center">
 
-DarkDex is a responsive cyber-neon Pokedex that loads Pokemon data dynamically from the official PokeAPI.
-The app focuses on fetch-then-render, caching, lazy-loaded evolution data, searchable Pokemon cards, a detail panel, and a modal dialog with navigation.
+DarkDex is a responsive cyber-neon Pokedex that loads first-generation Pokemon data dynamically from the official PokeAPI.
+The app focuses on fetch-then-render, caching, lazy-loaded evolution data, searchable Pokemon cards, a desktop detail panel, and a mobile dialog view with navigation.
 
 </div>
 
@@ -41,11 +41,7 @@ The GitHub Pages link is prepared here:
 
 ## Preview
 
-A moving preview GIF can be added later, for example:
-
-```text
-assets/screenshots/darkdex-preview.gif
-```
+![DarkDex preview](./assets/screenshots/darkdex-preview.gif)
 
 ## Table Of Contents
 
@@ -74,7 +70,7 @@ No build tools are required. The project can run with a local development server
 
 ## Data Source
 
-Pokemon data is loaded from the official [PokeAPI](https://pokeapi.co/).
+Pokemon data is loaded from the official [PokeAPI](https://pokeapi.co/). The app is limited to the first 151 Pokemon.
 
 ## Quickstart
 
@@ -106,10 +102,11 @@ http://localhost:<live-server-port>
 
 - Browse the initially loaded Pokemon cards.
 - Use "Load More" to fetch the next Pokemon group.
-- Search for a Pokemon by entering at least three letters.
-- Click a Pokemon card to open the detail dialog.
-- Use "Previous" and "Next" in the dialog to navigate through visible Pokemon.
-- The right detail panel keeps the last selected Pokemon visible.
+- Search for matching Pokemon by entering at least three letters.
+- On desktop, click a Pokemon card to update the right detail panel.
+- On tablet and mobile, click a Pokemon card to open the detail dialog.
+- Use "Previous" and "Next" to navigate through visible Pokemon.
+- The right detail panel keeps the last selected Pokemon visible on desktop.
 
 ## Project Structure
 
@@ -134,23 +131,25 @@ http://localhost:<live-server-port>
     |-- globalState.js
     |-- main.js
     |-- pokemonApi.js
+    |-- pokemonView.js
+    |-- search.js
     `-- templates.js
 ```
 
 ## Features
 
-| Feature           | Description                                                        |
-| ----------------- | ------------------------------------------------------------------ |
-| Fetch-then-render | Data is loaded before the UI is rendered.                          |
-| Caching           | Already loaded Pokemon, species and evolution data are reused.     |
-| Lazy loading      | Evolution chains are fetched only after a Pokemon card is clicked. |
-| Loading feedback  | A loading screen gives visual feedback during API requests.        |
-| Search            | Search starts with at least three entered letters.                 |
-| Load More         | More Pokemon can be loaded in controlled batches.                  |
-| Detail panel      | The last selected Pokemon stays visible on the right side.         |
-| Dialog view       | Shows Pokemon details, stats, evolution and navigation.            |
-| Responsive design | Layout is optimized down to small mobile widths.                   |
-| Data attributes   | Required `data-id` attributes are included for testability.        |
+| Feature           | Description                                                          |
+| ----------------- | -------------------------------------------------------------------- |
+| Fetch-then-render | Data is loaded before the UI is rendered.                            |
+| Caching           | Already loaded Pokemon, species and evolution data are reused.       |
+| Lazy loading      | Evolution chains are fetched only after a Pokemon card is clicked.   |
+| Loading feedback  | A loading screen gives visual feedback during API requests.          |
+| Search            | Search starts with at least three letters and shows partial matches. |
+| Load More         | More first-generation Pokemon can be loaded in controlled batches.   |
+| Detail panel      | Desktop shows the selected Pokemon on the right side.                |
+| Dialog view       | Tablet and mobile show Pokemon details in a dialog.                  |
+| Responsive design | Layout is optimized down to small mobile widths.                     |
+| Data attributes   | Required `data-id` attributes are included for testability.          |
 
 ## GitHub Pages
 
