@@ -30,6 +30,14 @@ function connectSearchInput() {
   const searchInput = getSearchInput();
   searchInput.addEventListener("input", handleSearchInput);
   searchInput.addEventListener("search", handleSearchInput);
+  connectSearchClearButton();
+}
+
+
+// Connects the clear search button with its action.
+function connectSearchClearButton() {
+  const clearButton = getClearSearchButton();
+  clearButton.addEventListener("click", clearSearchInput);
 }
 
 

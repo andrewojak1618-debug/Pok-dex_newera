@@ -54,8 +54,14 @@
   }
 
   .search_input {
-    padding: 0 18px;
+    padding: 0 58px 0 18px;
     font-size: 0.95rem;
+  }
+
+  .clear_search_button {
+    width: 32px;
+    height: 32px;
+    margin-right: 14px;
   }
 
   .pokemon_dialog {

@@ -49,6 +49,12 @@ function getSearchInput() {
 }
 
 
+// Gets the clear search button reference from the DOM.
+function getClearSearchButton() {
+  return document.getElementById("clear_search_button");
+}
+
+
 // Checks if the search value is long enough.
 function isValidSearchValue(searchValue) {
   return searchValue.length >= 3;
@@ -60,6 +66,23 @@ function updateSearchButtonState() {
   const searchButton = document.querySelector("[data-id='search-button']");
   searchButton.disabled =
     pokemonState.isLoading || !isValidSearchValue(getSearchValue());
+  updateClearSearchButtonState();
+}
+
+
+// Shows the clear button when the search input has text.
+function updateClearSearchButtonState() {
+  const clearButton = getClearSearchButton();
+  clearButton.classList.toggle("is_hidden", getSearchValue().length === 0);
+}
+
+
+// Clears the search input and restores the default view.
+function clearSearchInput() {
+  const searchInput = getSearchInput();
+  searchInput.value = "";
+  handleSearchInput();
+  searchInput.focus();
 }
 
 
