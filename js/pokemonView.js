@@ -4,14 +4,12 @@ function appendPokemonCards(pokemons) {
   pokemonGrid.innerHTML += getPokemonCardsTemplate(pokemons);
 }
 
-
 // Gets all currently rendered Pokemon from the cache.
 function getRenderedPokemons() {
   return pokemonState.renderedPokemonIds.map((pokemonId) => {
     return pokemonState.pokemonCache[pokemonId];
   });
 }
-
 
 // Replaces the grid content with a new Pokemon list.
 function renderPokemonGrid(pokemons) {
@@ -21,20 +19,18 @@ function renderPokemonGrid(pokemons) {
   updateVisiblePokemonIds(pokemons);
 }
 
-
 // Stores the currently visible Pokemon IDs for navigation.
 function updateVisiblePokemonIds(pokemons) {
   pokemonState.visiblePokemonIds = pokemons.map((pokemon) => pokemon.id);
 }
 
-
 // Shows a message and clears the card area.
 function renderMessage(message) {
   document.getElementById("message_container").innerHTML = "";
-  document.getElementById("pokemon_grid").innerHTML = getNotFoundTemplate(message);
+  document.getElementById("pokemon_grid").innerHTML =
+    getNotFoundTemplate(message);
   updateVisiblePokemonIds([]);
 }
-
 
 // Handles clicks on Pokemon cards.
 function handlePokemonCardClick(event) {
@@ -42,7 +38,6 @@ function handlePokemonCardClick(event) {
   if (!pokemonCard) return;
   openPokemonDetails(Number(pokemonCard.dataset.pokemonId));
 }
-
 
 // Loads Pokemon data and opens the matching detail view.
 async function openPokemonDetails(pokemonId) {
@@ -57,14 +52,12 @@ async function openPokemonDetails(pokemonId) {
   }
 }
 
-
 // Shows loaded data and then adds evolution data.
 async function renderLoadedPokemonRequest(pokemon, requestId) {
   showLoadedPokemonDetails(pokemon);
   endDialogRequest(requestId);
   await renderEvolutionSection(pokemon);
 }
-
 
 // Shows loaded Pokemon data based on the screen size.
 function showLoadedPokemonDetails(pokemon) {
@@ -74,12 +67,10 @@ function showLoadedPokemonDetails(pokemon) {
   showPokemonDialog();
 }
 
-
 // Renders the empty start state in the detail panel.
 function renderEmptyDetailPanel() {
   getDetailPanel().innerHTML = getEmptyDetailPanelTemplate();
 }
-
 
 // Renders the last selected Pokemon in the detail panel.
 function renderLastSelectedPokemon(pokemon) {
@@ -87,12 +78,10 @@ function renderLastSelectedPokemon(pokemon) {
   connectDetailNavigationButtons();
 }
 
-
 // Gets the right detail panel from the DOM.
 function getDetailPanel() {
   return document.querySelector(".pokemon_detail_panel");
 }
-
 
 // Starts a protected dialog loading request.
 function startDialogRequest() {
@@ -102,7 +91,6 @@ function startDialogRequest() {
   return pokemonState.dialogRequestId;
 }
 
-
 // Ends the current dialog loading request.
 function endDialogRequest(requestId) {
   if (!isActiveDialogRequest(requestId)) return;
@@ -110,12 +98,10 @@ function endDialogRequest(requestId) {
   toggleDialogNavigationButtons(false);
 }
 
-
 // Checks if the dialog response is still current.
 function isActiveDialogRequest(requestId) {
   return pokemonState.dialogRequestId === requestId;
 }
-
 
 // Loads and renders evolution data for the opened Pokemon.
 async function renderEvolutionSection(pokemon) {
@@ -128,14 +114,12 @@ async function renderEvolutionSection(pokemon) {
   }
 }
 
-
 // Renders loaded evolution data in dialog and detail panel.
 function renderLoadedEvolution(evolutions) {
   const template = getEvolutionTemplate(evolutions);
   updateEvolutionSection(template);
   updateDetailEvolutionSection(template);
 }
-
 
 // Renders the error state for evolution data.
 function renderEvolutionError() {
@@ -144,12 +128,10 @@ function renderEvolutionError() {
   updateDetailEvolutionSection(template);
 }
 
-
 // Checks if the loaded Pokemon is still active.
 function isActivePokemon(pokemonId) {
   return pokemonState.activePokemonId === pokemonId;
 }
-
 
 // Updates only the evolution area in the dialog.
 function updateEvolutionSection(template) {
@@ -157,7 +139,6 @@ function updateEvolutionSection(template) {
   if (!evolutionContent) return;
   evolutionContent.innerHTML = template;
 }
-
 
 // Updates only the evolution area in the detail panel.
 function updateDetailEvolutionSection(template) {
@@ -168,7 +149,6 @@ function updateDetailEvolutionSection(template) {
   evolutionContent.innerHTML = template;
 }
 
-
 // Renders real Pokemon data into the dialog.
 function renderPokemonDialog(pokemon) {
   const dialogContent = document.querySelector(
@@ -178,7 +158,6 @@ function renderPokemonDialog(pokemon) {
   connectDialogButtons();
 }
 
-
 // Opens the native Pokemon dialog.
 function showPokemonDialog() {
   const pokemonDialog = document.getElementById("pokemon_dialog");
@@ -187,7 +166,6 @@ function showPokemonDialog() {
   pokemonDialog.showModal();
 }
 
-
 // Connects the dialog buttons with their actions.
 function connectDialogButtons() {
   connectDialogCloseButton();
@@ -195,7 +173,6 @@ function connectDialogButtons() {
   connectNextButton();
   togglePokemonNavigationButtons(false);
 }
-
 
 // Connects the detail panel navigation buttons.
 function connectDetailNavigationButtons() {
@@ -206,13 +183,11 @@ function connectDetailNavigationButtons() {
   togglePokemonNavigationButtons(false);
 }
 
-
 // Connects the close button with the dialog.
 function connectDialogCloseButton() {
   const closeButton = document.querySelector("[data-id='close-dialog-button']");
   closeButton.addEventListener("click", closePokemonDialog);
 }
-
 
 // Connects the Previous button with the previous Pokemon.
 function connectPreviousButton() {
@@ -220,19 +195,16 @@ function connectPreviousButton() {
   previousButton.addEventListener("click", showPreviousPokemon);
 }
 
-
 // Connects the Next button with the next Pokemon.
 function connectNextButton() {
   const nextButton = document.querySelector("[data-id='next-button']");
   nextButton.addEventListener("click", showNextPokemon);
 }
 
-
 // Updates dialog navigation for the current state.
 function toggleDialogNavigationButtons(isDisabled) {
   togglePokemonNavigationButtons(isDisabled);
 }
-
 
 // Updates all Pokemon navigation buttons for the current state.
 function togglePokemonNavigationButtons(isDisabled) {
@@ -242,7 +214,6 @@ function togglePokemonNavigationButtons(isDisabled) {
   });
 }
 
-
 // Gets all navigation buttons from dialog and detail panel.
 function getDialogNavigationButtons() {
   return document.querySelectorAll(
@@ -250,18 +221,15 @@ function getDialogNavigationButtons() {
   );
 }
 
-
 // Gets the navigation buttons from the right detail panel.
 function getDetailNavigationButtons() {
   return document.querySelectorAll(".detail_arrow_button");
 }
 
-
 // Checks if more than one visible Pokemon can be navigated.
 function hasDialogNavigation() {
   return pokemonState.visiblePokemonIds.length > 1;
 }
-
 
 // Shows the previous Pokemon in the current detail view.
 function showPreviousPokemon() {
@@ -270,14 +238,12 @@ function showPreviousPokemon() {
   openPokemonDetails(previousPokemonId);
 }
 
-
 // Shows the next Pokemon in the current detail view.
 function showNextPokemon() {
   if (pokemonState.isDialogLoading) return;
   const nextPokemonId = getNextPokemonId();
   openPokemonDetails(nextPokemonId);
 }
-
 
 // Gets the ID of the previous rendered Pokemon.
 function getPreviousPokemonId() {
@@ -289,7 +255,6 @@ function getPreviousPokemonId() {
   );
 }
 
-
 // Gets the ID of the next rendered Pokemon.
 function getNextPokemonId() {
   const currentIndex = getActivePokemonIndex();
@@ -299,12 +264,10 @@ function getNextPokemonId() {
   );
 }
 
-
 // Gets the position of the currently opened Pokemon.
 function getActivePokemonIndex() {
   return pokemonState.visiblePokemonIds.indexOf(pokemonState.activePokemonId);
 }
-
 
 // Closes the native Pokemon dialog.
 function closePokemonDialog() {
@@ -314,13 +277,11 @@ function closePokemonDialog() {
   unlockPageScroll();
 }
 
-
 // Closes the dialog when the backdrop is clicked.
 function handleDialogBackdropClick(event) {
   if (event.target !== event.currentTarget) return;
   closePokemonDialog();
 }
-
 
 // Locks the page at the current scroll position.
 function lockPageScroll() {
@@ -328,7 +289,6 @@ function lockPageScroll() {
   document.body.style.top = `-${pokemonState.scrollPosition}px`;
   document.body.classList.add("dialog_is_open");
 }
-
 
 // Unlocks scrolling and restores the previous position.
 function unlockPageScroll() {

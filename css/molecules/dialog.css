@@ -143,8 +143,10 @@ body.dialog_is_open {
 .dialog_evolution {
   display: grid;
   gap: 8px;
+  align-content: center;
   width: 100%;
   max-width: 620px;
+  min-height: 96px;
   text-align: center;
 }
 
@@ -179,6 +181,9 @@ body.dialog_is_open {
 }
 
 .dialog_evolution_message {
+  display: grid;
+  place-items: center;
+  min-height: 72px;
   margin: 0;
   font-size: 0.95rem;
   text-align: center;

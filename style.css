@@ -295,7 +295,9 @@ body {
 .detail_panel_evolution {
   display: grid;
   gap: 8px;
+  align-content: center;
   width: 100%;
+  min-height: 78px;
   margin-top: 4px;
   text-align: center;
 }
