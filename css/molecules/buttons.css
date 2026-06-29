@@ -146,31 +146,71 @@
 
 .close_dialog_button {
   position: absolute;
-  top: 24px;
-  right: 24px;
+  top: 18px;
+  right: 18px;
   z-index: 2;
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 0;
+  width: 52px;
+  height: 52px;
+  border: 1px solid rgba(216, 244, 255, 0.56);
   border-radius: 50%;
   background:
     url("../../assets/icons/p.holder_green_ball_small.png") center / contain
       no-repeat,
     transparent;
+  box-shadow:
+    0 0 18px rgba(124, 255, 195, 0.3),
+    inset 0 0 14px rgba(216, 244, 255, 0.16);
   cursor: pointer;
   filter: drop-shadow(0 0 14px var(--logo_shadow));
   transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
     filter 160ms ease,
     transform 160ms ease;
 }
 
+.close_dialog_button::before,
+.close_dialog_button::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(237, 255, 255, 0.96);
+  box-shadow:
+    0 0 8px rgba(216, 244, 255, 0.96),
+    0 0 16px rgba(124, 255, 195, 0.5);
+}
+
+.close_dialog_button::before {
+  transform: rotate(45deg);
+}
+
+.close_dialog_button::after {
+  transform: rotate(-45deg);
+}
+
 .close_dialog_button:hover,
 .close_dialog_button:focus-visible {
+  border-color: rgba(255, 130, 130, 0.76);
   background-image: url("../../assets/icons/closed_red_ball_small.png");
+  box-shadow:
+    0 0 24px rgba(255, 92, 92, 0.34),
+    inset 0 0 16px rgba(255, 255, 255, 0.16);
   filter: drop-shadow(0 0 18px var(--pokemon_card_hover_shadow));
   transform: scale(1.08);
+}
+
+.close_dialog_button:hover::before,
+.close_dialog_button:hover::after,
+.close_dialog_button:focus-visible::before,
+.close_dialog_button:focus-visible::after {
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow:
+    0 0 8px rgba(255, 245, 245, 0.96),
+    0 0 18px rgba(255, 92, 92, 0.72);
 }
 
 .dialog_arrow_button,
