@@ -70,15 +70,8 @@ async function renderLoadedPokemonRequest(pokemon, requestId) {
 function showLoadedPokemonDetails(pokemon) {
   pokemonState.activePokemonId = pokemon.id;
   renderLastSelectedPokemon(pokemon);
-  if (isDesktopDetailMode()) return;
   renderPokemonDialog(pokemon);
   showPokemonDialog();
-}
-
-
-// Checks if desktop should only use the detail panel.
-function isDesktopDetailMode() {
-  return window.matchMedia("(min-width: 1256px)").matches;
 }
 
 
