@@ -74,7 +74,7 @@ function renderEmptyDetailPanel() {
 
 // Renders the last selected Pokemon in the detail panel.
 function renderLastSelectedPokemon(pokemon) {
-  getDetailPanel().innerHTML = getDetailPanelTemplate(pokemon);
+  getDetailPanel().innerHTML = getPreparedDetailPanelTemplate(pokemon);
   connectDetailNavigationButtons();
 }
 
@@ -154,7 +154,7 @@ function renderPokemonDialog(pokemon) {
   const dialogContent = document.querySelector(
     "[data-id='overlay-pokemon-name']",
   );
-  dialogContent.innerHTML = getPokemonDialogContentTemplate(pokemon);
+  dialogContent.innerHTML = getPreparedPokemonDialogContentTemplate(pokemon);
   connectDialogButtons();
 }
 
