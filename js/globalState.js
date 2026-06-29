@@ -1,4 +1,4 @@
-// Speichert zentrale App-Werte, geladene Pokemon und den Ladezustand.
+﻿// Stores central app values, loaded Pokemon, and loading state.
 const pokemonState = {
   baseUrl: "https://pokeapi.co/api/v2",
   initialAmount: 20,

@@ -1,11 +1,11 @@
-// Fügt Pokemon-Karten in den vorhandenen Grid-Container ein.
+﻿// Adds Pokemon cards to the existing grid container.
 function appendPokemonCards(pokemons) {
   const pokemonGrid = document.getElementById("pokemon_grid");
   pokemonGrid.innerHTML += getPokemonCardsTemplate(pokemons);
 }
 
 
-// Holt alle aktuell gerenderten Pokemon aus dem Cache.
+// Gets all currently rendered Pokemon from the cache.
 function getRenderedPokemons() {
   return pokemonState.renderedPokemonIds.map((pokemonId) => {
     return pokemonState.pokemonCache[pokemonId];
@@ -13,7 +13,7 @@ function getRenderedPokemons() {
 }
 
 
-// Ersetzt den Grid-Inhalt durch eine neue Pokemon-Liste.
+// Replaces the grid content with a new Pokemon list.
 function renderPokemonGrid(pokemons) {
   document.getElementById("message_container").innerHTML = "";
   document.getElementById("pokemon_grid").innerHTML =
@@ -22,13 +22,13 @@ function renderPokemonGrid(pokemons) {
 }
 
 
-// Speichert die aktuell sichtbaren Pokemon-IDs für den Dialog.
+// Stores the currently visible Pokemon IDs for navigation.
 function updateVisiblePokemonIds(pokemons) {
   pokemonState.visiblePokemonIds = pokemons.map((pokemon) => pokemon.id);
 }
 
 
-// Zeigt eine Meldung und leert den Kartenbereich.
+// Shows a message and clears the card area.
 function renderMessage(message) {
   document.getElementById("message_container").innerHTML = "";
   document.getElementById("pokemon_grid").innerHTML = getNotFoundTemplate(message);
@@ -36,7 +36,7 @@ function renderMessage(message) {
 }
 
 
-// Reagiert auf den Klick einer Pokemon-Karte.
+// Handles clicks on Pokemon cards.
 function handlePokemonCardClick(event) {
   const pokemonCard = event.target.closest("[data-id='card']");
   if (!pokemonCard) return;
@@ -44,15 +44,13 @@ function handlePokemonCardClick(event) {
 }
 
 
-// Lädt die Pokemon-Daten und öffnet die passende Ansicht.
+// Loads Pokemon data and opens the matching detail view.
 async function openPokemonDetails(pokemonId) {
   const requestId = startDialogRequest();
   try {
     const pokemon = await fetchPokemonById(pokemonId);
     if (!isActiveDialogRequest(requestId)) return;
-    showLoadedPokemonDetails(pokemon);
-    endDialogRequest(requestId);
-    await renderEvolutionSection(pokemon);
+    await renderLoadedPokemonRequest(pokemon, requestId);
   } catch (error) {
     endDialogRequest(requestId);
     renderMessage("Pokemon details could not be loaded.");
@@ -60,7 +58,15 @@ async function openPokemonDetails(pokemonId) {
 }
 
 
-// Zeigt geladene Pokemon-Daten je nach Bildschirmgröße an.
+// Shows loaded data and then adds evolution data.
+async function renderLoadedPokemonRequest(pokemon, requestId) {
+  showLoadedPokemonDetails(pokemon);
+  endDialogRequest(requestId);
+  await renderEvolutionSection(pokemon);
+}
+
+
+// Shows loaded Pokemon data based on the screen size.
 function showLoadedPokemonDetails(pokemon) {
   pokemonState.activePokemonId = pokemon.id;
   renderLastSelectedPokemon(pokemon);
@@ -70,32 +76,32 @@ function showLoadedPokemonDetails(pokemon) {
 }
 
 
-// Prüft, ob Desktop nur das Detailpanel nutzen soll.
+// Checks if desktop should only use the detail panel.
 function isDesktopDetailMode() {
   return window.matchMedia("(min-width: 1256px)").matches;
 }
 
 
-// Rendert den leeren Startzustand im Detailpanel.
+// Renders the empty start state in the detail panel.
 function renderEmptyDetailPanel() {
   getDetailPanel().innerHTML = getEmptyDetailPanelTemplate();
 }
 
 
-// Rendert das zuletzt ausgewählte Pokemon im Detailpanel.
+// Renders the last selected Pokemon in the detail panel.
 function renderLastSelectedPokemon(pokemon) {
   getDetailPanel().innerHTML = getDetailPanelTemplate(pokemon);
   connectDetailNavigationButtons();
 }
 
 
-// Holt das rechte Detailpanel aus dem DOM.
+// Gets the right detail panel from the DOM.
 function getDetailPanel() {
   return document.querySelector(".pokemon_detail_panel");
 }
 
 
-// Startet einen geschützten Dialog-Ladevorgang.
+// Starts a protected dialog loading request.
 function startDialogRequest() {
   pokemonState.isDialogLoading = true;
   pokemonState.dialogRequestId += 1;
@@ -104,7 +110,7 @@ function startDialogRequest() {
 }
 
 
-// Beendet den aktuellen Dialog-Ladevorgang.
+// Ends the current dialog loading request.
 function endDialogRequest(requestId) {
   if (!isActiveDialogRequest(requestId)) return;
   pokemonState.isDialogLoading = false;
@@ -112,13 +118,13 @@ function endDialogRequest(requestId) {
 }
 
 
-// Prüft, ob die Dialog-Antwort noch aktuell ist.
+// Checks if the dialog response is still current.
 function isActiveDialogRequest(requestId) {
   return pokemonState.dialogRequestId === requestId;
 }
 
 
-// Lädt und rendert die Evolution im geöffneten Dialog.
+// Loads and renders evolution data for the opened Pokemon.
 async function renderEvolutionSection(pokemon) {
   try {
     const evolutions = await fetchEvolutionChain(pokemon);
@@ -130,7 +136,7 @@ async function renderEvolutionSection(pokemon) {
 }
 
 
-// Rendert geladene Evolutionen in Dialog und Detailpanel.
+// Renders loaded evolution data in dialog and detail panel.
 function renderLoadedEvolution(evolutions) {
   const template = getEvolutionTemplate(evolutions);
   updateEvolutionSection(template);
@@ -138,7 +144,7 @@ function renderLoadedEvolution(evolutions) {
 }
 
 
-// Rendert den Fehlerzustand für Evolutionen.
+// Renders the error state for evolution data.
 function renderEvolutionError() {
   const template = getEvolutionErrorTemplate();
   updateEvolutionSection(template);
@@ -146,13 +152,13 @@ function renderEvolutionError() {
 }
 
 
-// Prüft, ob das geladene Pokemon noch aktiv ist.
+// Checks if the loaded Pokemon is still active.
 function isActivePokemon(pokemonId) {
   return pokemonState.activePokemonId === pokemonId;
 }
 
 
-// Aktualisiert nur den Evolution-Bereich im Dialog.
+// Updates only the evolution area in the dialog.
 function updateEvolutionSection(template) {
   const evolutionContent = document.getElementById("dialog_evolution_content");
   if (!evolutionContent) return;
@@ -160,7 +166,7 @@ function updateEvolutionSection(template) {
 }
 
 
-// Aktualisiert nur den Evolution-Bereich im Detailpanel.
+// Updates only the evolution area in the detail panel.
 function updateDetailEvolutionSection(template) {
   const evolutionContent = document.getElementById(
     "detail_panel_evolution_content",
@@ -170,7 +176,7 @@ function updateDetailEvolutionSection(template) {
 }
 
 
-// Rendert die echten Pokemon-Daten in den Dialog.
+// Renders real Pokemon data into the dialog.
 function renderPokemonDialog(pokemon) {
   const dialogContent = document.querySelector(
     "[data-id='overlay-pokemon-name']",
@@ -180,7 +186,7 @@ function renderPokemonDialog(pokemon) {
 }
 
 
-// Öffnet den nativen Pokemon-Dialog.
+// Opens the native Pokemon dialog.
 function showPokemonDialog() {
   const pokemonDialog = document.getElementById("pokemon_dialog");
   if (pokemonDialog.open) return;
@@ -189,7 +195,7 @@ function showPokemonDialog() {
 }
 
 
-// Verbindet die Dialog-Buttons mit ihren Funktionen.
+// Connects the dialog buttons with their actions.
 function connectDialogButtons() {
   connectDialogCloseButton();
   connectPreviousButton();
@@ -198,7 +204,7 @@ function connectDialogButtons() {
 }
 
 
-// Verbindet die Detailpanel-Buttons mit ihren Funktionen.
+// Connects the detail panel navigation buttons.
 function connectDetailNavigationButtons() {
   const buttons = getDetailNavigationButtons();
   if (!buttons.length) return;
@@ -208,34 +214,34 @@ function connectDetailNavigationButtons() {
 }
 
 
-// Verbindet den Schließen-Button mit dem Dialog.
+// Connects the close button with the dialog.
 function connectDialogCloseButton() {
   const closeButton = document.querySelector("[data-id='close-dialog-button']");
   closeButton.addEventListener("click", closePokemonDialog);
 }
 
 
-// Verbindet den Previous-Button mit dem vorherigen Pokemon.
+// Connects the Previous button with the previous Pokemon.
 function connectPreviousButton() {
   const previousButton = document.querySelector("[data-id='prev-button']");
   previousButton.addEventListener("click", showPreviousPokemon);
 }
 
 
-// Verbindet den Next-Button mit dem nächsten Pokemon.
+// Connects the Next button with the next Pokemon.
 function connectNextButton() {
   const nextButton = document.querySelector("[data-id='next-button']");
   nextButton.addEventListener("click", showNextPokemon);
 }
 
 
-// Schaltet die Dialog-Navigation passend zum Zustand.
+// Updates dialog navigation for the current state.
 function toggleDialogNavigationButtons(isDisabled) {
   togglePokemonNavigationButtons(isDisabled);
 }
 
 
-// Schaltet alle Pokemon-Navigationsbuttons passend zum Zustand.
+// Updates all Pokemon navigation buttons for the current state.
 function togglePokemonNavigationButtons(isDisabled) {
   const buttons = getDialogNavigationButtons();
   buttons.forEach((button) => {
@@ -244,7 +250,7 @@ function togglePokemonNavigationButtons(isDisabled) {
 }
 
 
-// Holt alle Navigationsbuttons aus Dialog und Detailpanel.
+// Gets all navigation buttons from dialog and detail panel.
 function getDialogNavigationButtons() {
   return document.querySelectorAll(
     "[data-id='prev-button'], [data-id='next-button'], .detail_arrow_button",
@@ -252,19 +258,19 @@ function getDialogNavigationButtons() {
 }
 
 
-// Holt die Navigationsbuttons aus dem rechten Detailpanel.
+// Gets the navigation buttons from the right detail panel.
 function getDetailNavigationButtons() {
   return document.querySelectorAll(".detail_arrow_button");
 }
 
 
-// Prüft, ob mehr als ein sichtbares Pokemon navigierbar ist.
+// Checks if more than one visible Pokemon can be navigated.
 function hasDialogNavigation() {
   return pokemonState.visiblePokemonIds.length > 1;
 }
 
 
-// Zeigt das vorherige Pokemon im geöffneten Dialog.
+// Shows the previous Pokemon in the current detail view.
 function showPreviousPokemon() {
   if (pokemonState.isDialogLoading) return;
   const previousPokemonId = getPreviousPokemonId();
@@ -272,7 +278,7 @@ function showPreviousPokemon() {
 }
 
 
-// Zeigt das nächste Pokemon im geöffneten Dialog.
+// Shows the next Pokemon in the current detail view.
 function showNextPokemon() {
   if (pokemonState.isDialogLoading) return;
   const nextPokemonId = getNextPokemonId();
@@ -280,7 +286,7 @@ function showNextPokemon() {
 }
 
 
-// Holt die ID des vorherigen gerenderten Pokemon.
+// Gets the ID of the previous rendered Pokemon.
 function getPreviousPokemonId() {
   const currentIndex = getActivePokemonIndex();
   const lastIndex = pokemonState.visiblePokemonIds.length - 1;
@@ -291,7 +297,7 @@ function getPreviousPokemonId() {
 }
 
 
-// Holt die ID des nächsten gerenderten Pokemon.
+// Gets the ID of the next rendered Pokemon.
 function getNextPokemonId() {
   const currentIndex = getActivePokemonIndex();
   return (
@@ -301,13 +307,13 @@ function getNextPokemonId() {
 }
 
 
-// Holt die Position des aktuell geöffneten Pokemon.
+// Gets the position of the currently opened Pokemon.
 function getActivePokemonIndex() {
   return pokemonState.visiblePokemonIds.indexOf(pokemonState.activePokemonId);
 }
 
 
-// Schließt den nativen Pokemon-Dialog.
+// Closes the native Pokemon dialog.
 function closePokemonDialog() {
   const pokemonDialog = document.getElementById("pokemon_dialog");
   if (!pokemonDialog.open) return;
@@ -316,14 +322,14 @@ function closePokemonDialog() {
 }
 
 
-// Schließt den Dialog, wenn der Hintergrund angeklickt wird.
+// Closes the dialog when the backdrop is clicked.
 function handleDialogBackdropClick(event) {
   if (event.target !== event.currentTarget) return;
   closePokemonDialog();
 }
 
 
-// Fixiert die Seite an der aktuellen Scrollposition.
+// Locks the page at the current scroll position.
 function lockPageScroll() {
   pokemonState.scrollPosition = window.scrollY;
   document.body.style.top = `-${pokemonState.scrollPosition}px`;
@@ -331,7 +337,7 @@ function lockPageScroll() {
 }
 
 
-// Löst die Scroll-Fixierung und stellt die Position wieder her.
+// Unlocks scrolling and restores the previous position.
 function unlockPageScroll() {
   document.body.classList.remove("dialog_is_open");
   document.body.style.top = "";

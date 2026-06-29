@@ -1,4 +1,4 @@
-// Lädt ein einzelnes Pokemon oder nutzt es aus dem Cache.
+﻿// Loads one Pokemon by ID or reuses it from the cache.
 async function fetchPokemonById(pokemonId) {
   if (pokemonState.pokemonCache[pokemonId]) {
     return pokemonState.pokemonCache[pokemonId];
@@ -8,14 +8,14 @@ async function fetchPokemonById(pokemonId) {
 }
 
 
-// Lädt ein Pokemon per Namen oder nutzt es aus dem Cache.
+// Loads one Pokemon by name or reuses it from the cache.
 async function fetchPokemonByName(pokemonName) {
   const cachedPokemon = findCachedPokemonByName(pokemonName);
   return cachedPokemon || await requestPokemon(pokemonName);
 }
 
 
-// Lädt alle Pokemon, deren Name den Suchbegriff enthält.
+// Loads all Pokemon whose names contain the search value.
 async function fetchPokemonsBySearchValue(searchValue) {
   const pokemonNames = await fetchMatchingPokemonNames(searchValue);
   const pokemonPromises = pokemonNames.map((name) => fetchPokemonByName(name));
@@ -24,7 +24,7 @@ async function fetchPokemonsBySearchValue(searchValue) {
 }
 
 
-// Filtert die gecachte Pokemon-Liste nach Teiltreffern.
+// Filters the cached Pokemon list by partial matches.
 async function fetchMatchingPokemonNames(searchValue) {
   const pokemonList = await fetchPokemonNameList();
   return pokemonList
@@ -33,7 +33,7 @@ async function fetchMatchingPokemonNames(searchValue) {
 }
 
 
-// Lädt die Pokemon-Namensliste oder nutzt den Cache.
+// Loads the Pokemon name list or reuses the cache.
 async function fetchPokemonNameList() {
   if (pokemonState.pokemonListCache) return pokemonState.pokemonListCache;
   pokemonState.pokemonListCache = await requestPokemonNameList();
@@ -41,7 +41,7 @@ async function fetchPokemonNameList() {
 }
 
 
-// Holt die Pokemon-Namensliste aus der PokeAPI.
+// Requests the Pokemon name list from the PokeAPI.
 async function requestPokemonNameList() {
   const listUrl = `${pokemonState.baseUrl}/pokemon?limit=${pokemonState.maxPokemonId}`;
   const listData = await requestJson(listUrl);
@@ -49,7 +49,7 @@ async function requestPokemonNameList() {
 }
 
 
-// Holt ein Pokemon direkt aus der API und speichert es im Cache.
+// Requests one Pokemon from the API and stores it in the cache.
 async function requestPokemon(searchValue) {
   const pokemonUrl = `${pokemonState.baseUrl}/pokemon/${encodeURIComponent(searchValue)}`;
   const response = await fetch(pokemonUrl);
@@ -60,7 +60,7 @@ async function requestPokemon(searchValue) {
 }
 
 
-// Sucht ein Pokemon im vorhandenen Cache über seinen Namen.
+// Finds one Pokemon by name in the existing cache.
 function findCachedPokemonByName(pokemonName) {
   return Object.values(pokemonState.pokemonCache).find((pokemon) => {
     return pokemon.name.toLowerCase() === pokemonName;
@@ -68,7 +68,7 @@ function findCachedPokemonByName(pokemonName) {
 }
 
 
-// Lädt mehrere Pokemon anhand eines Startwertes und einer Menge.
+// Loads multiple Pokemon from a start ID and amount.
 async function fetchPokemonRange(startId, amount) {
   const pokemonIds = createPokemonIdList(startId, amount);
   const pokemonPromises = pokemonIds.map((pokemonId) => fetchPokemonById(pokemonId));
@@ -76,7 +76,7 @@ async function fetchPokemonRange(startId, amount) {
 }
 
 
-// Erstellt eine fortlaufende Liste von Pokemon-IDs.
+// Creates a continuous list of Pokemon IDs.
 function createPokemonIdList(startId, amount) {
   const pokemonIds = [];
 
@@ -88,7 +88,7 @@ function createPokemonIdList(startId, amount) {
 }
 
 
-// Kürzt die API-Daten auf die Werte, die unsere App braucht.
+// Reduces the API data to the values the app needs.
 function mapPokemonData(pokemon) {
   return {
     id: pokemon.id,
@@ -103,7 +103,7 @@ function mapPokemonData(pokemon) {
 }
 
 
-// Kürzt einen Stat-Eintrag auf Name und Wert.
+// Reduces one stat entry to name and value.
 function mapPokemonStat(entry) {
   return {
     name: entry.stat.name,
@@ -112,7 +112,7 @@ function mapPokemonStat(entry) {
 }
 
 
-// Lädt die Evolution-Chain erst für den geöffneten Dialog.
+// Lazy-loads the evolution chain for the opened Pokemon.
 async function fetchEvolutionChain(pokemon) {
   const species = await fetchPokemonSpecies(pokemon.speciesUrl);
   const chain = await fetchEvolutionData(species.evolution_chain.url);
@@ -120,7 +120,7 @@ async function fetchEvolutionChain(pokemon) {
 }
 
 
-// Lädt Species-Daten oder nutzt sie aus dem Cache.
+// Loads species data or reuses it from the cache.
 async function fetchPokemonSpecies(speciesUrl) {
   if (pokemonState.speciesCache[speciesUrl]) return pokemonState.speciesCache[speciesUrl];
   const species = await requestJson(speciesUrl);
@@ -129,7 +129,7 @@ async function fetchPokemonSpecies(speciesUrl) {
 }
 
 
-// Lädt Evolution-Daten oder nutzt sie aus dem Cache.
+// Loads evolution data or reuses it from the cache.
 async function fetchEvolutionData(evolutionUrl) {
   if (pokemonState.evolutionCache[evolutionUrl]) return pokemonState.evolutionCache[evolutionUrl];
   const evolution = await requestJson(evolutionUrl);
@@ -138,14 +138,14 @@ async function fetchEvolutionData(evolutionUrl) {
 }
 
 
-// Wandelt eine Evolution-Chain in Dialog-Daten um.
+// Converts an evolution chain into dialog data.
 async function mapEvolutionChain(chain) {
   const evolutionNodes = collectEvolutionNodes(chain, null);
   return await Promise.all(evolutionNodes.map((node) => mapEvolutionNode(node)));
 }
 
 
-// Sammelt alle Evolution-Stufen aus der verschachtelten Chain.
+// Collects all evolution stages from the nested chain.
 function collectEvolutionNodes(chain, level) {
   const node = { name: chain.species.name, level };
   const nextNodes = chain.evolves_to.flatMap((entry) => {
@@ -155,27 +155,27 @@ function collectEvolutionNodes(chain, level) {
 }
 
 
-// Holt das Level einer Evolution, wenn die API eines liefert.
+// Gets the evolution level if the API provides one.
 function getEvolutionLevel(entry) {
   return entry.evolution_details[0]?.min_level || null;
 }
 
 
-// Ergänzt Bild und formatierten Namen für eine Evolution-Stufe.
+// Adds an image and formatted name to one evolution stage.
 async function mapEvolutionNode(node) {
   const pokemon = await fetchPokemonByName(node.name);
   return { name: pokemon.name, image: pokemon.image, level: node.level };
 }
 
 
-// Holt JSON-Daten direkt von einer API-URL.
+// Requests JSON data directly from an API URL.
 async function requestJson(url) {
   const response = await fetch(url);
   return await response.json();
 }
 
 
-// Schreibt den ersten Buchstaben eines Textes groß.
+// Uppercases the first letter of a text.
 function capitalizeFirstLetter(text) {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }

@@ -28,7 +28,7 @@ body {
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
   justify-items: start;
-  gap: 32px;
+  gap: 80px;
   width: min(100%, 1480px);
   margin: 0 auto;
   padding: 0 48px;
@@ -39,7 +39,7 @@ body {
   grid-row: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 12px;
   width: min(100%, 732px);
 }
@@ -72,7 +72,7 @@ body {
   gap: 32px;
   width: min(100%, 1480px);
   margin: 0 auto;
-  padding: 72px 48px 40px;
+  padding: 40px 48px 40px;
 }
 
 .pokedex_list_panel {
@@ -163,7 +163,7 @@ body {
   display: grid;
   align-self: start;
   place-items: center;
-  margin-top: -144px;
+  margin-top: -112px;
   min-height: calc(65vh - 24px);
   padding: 34px 28px;
   border-radius: 38px 8px 38px 8px;
@@ -301,16 +301,29 @@ body {
 }
 
 .detail_panel_evolution .dialog_evolution_list {
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, auto));
+  gap: 5px;
 }
 
 .detail_panel_evolution .dialog_evolution_item {
-  min-width: 54px;
+  min-width: 0;
 }
 
 .detail_panel_evolution .dialog_evolution_item img {
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
+}
+
+.detail_panel_evolution .dialog_evolution_item b {
+  max-width: 64px;
+  font-size: 0.72rem;
+  line-height: 1.1;
+}
+
+.detail_panel_evolution .dialog_evolution_level {
+  min-width: 42px;
+  font-size: 0.72rem;
 }
 
 .detail_navigation {

@@ -1,4 +1,4 @@
-// Startet die App und lädt die ersten Pokemon.
+﻿// Starts the app and loads the first Pokemon.
 async function initPokedex() {
   connectLoadMoreButton();
   connectSearchForm();
@@ -8,13 +8,15 @@ async function initPokedex() {
   await loadInitialPokemon();
 }
 
-// Verbindet den Load-More-Button mit seiner Funktion.
+
+// Connects the Load More button with its action.
 function connectLoadMoreButton() {
   const loadMoreButton = document.getElementById("load_more_button");
   loadMoreButton.addEventListener("click", loadMorePokemon);
 }
 
-// Verbindet das Suchformular mit seiner Funktion.
+
+// Connects the search form with its action.
 function connectSearchForm() {
   const searchForm = document.querySelector(".search_bar");
   searchForm.addEventListener("submit", handleSearchSubmit);
@@ -22,36 +24,43 @@ function connectSearchForm() {
   updateSearchButtonState();
 }
 
-// Verbindet das Suchfeld mit der Button-Aktivierung.
+
+// Connects the search input with live search updates.
 function connectSearchInput() {
   const searchInput = getSearchInput();
   searchInput.addEventListener("input", handleSearchInput);
+  searchInput.addEventListener("search", handleSearchInput);
 }
 
-// Verbindet das Pokemon-Grid mit dem Dialog.
+
+// Connects the Pokemon grid with the detail view.
 function connectPokemonGrid() {
   const pokemonGrid = document.getElementById("pokemon_grid");
   pokemonGrid.addEventListener("click", handlePokemonCardClick);
 }
 
-// Verbindet den Dialog mit Hintergrundklick und Schließen-Event.
+
+// Connects the dialog with backdrop and close events.
 function connectPokemonDialog() {
   const pokemonDialog = document.getElementById("pokemon_dialog");
   pokemonDialog.addEventListener("click", handleDialogBackdropClick);
   pokemonDialog.addEventListener("close", unlockPageScroll);
 }
 
-// Lädt die erste Pokemon-Gruppe beim Start.
+
+// Loads the first Pokemon group on startup.
 async function loadInitialPokemon() {
   await loadPokemonCards(pokemonState.initialAmount);
 }
 
-// Lädt die nächste Pokemon-Gruppe per Button.
+
+// Loads the next Pokemon group from the button.
 async function loadMorePokemon() {
   await loadPokemonCards(pokemonState.loadAmount);
 }
 
-// Steuert Laden, Fehlerfall und Loading-Anzeige.
+
+// Controls loading, error handling, and feedback UI.
 async function loadPokemonCards(amount) {
   if (pokemonState.isLoading) return;
   setLoadingState(true);
@@ -64,7 +73,8 @@ async function loadPokemonCards(amount) {
   }
 }
 
-// Lädt neue Pokemon und fügt sie an die Liste an.
+
+// Loads new Pokemon and appends them to the list.
 async function appendNextPokemonCards(amount) {
   const pokemons = await fetchNextPokemons(amount);
   if (!pokemons.length) return;
@@ -73,7 +83,8 @@ async function appendNextPokemonCards(amount) {
   updateVisiblePokemonIds(getRenderedPokemons());
 }
 
-// Holt die nächsten Pokemon anhand des aktuellen Startpunkts.
+
+// Gets the next Pokemon from the current start point.
 async function fetchNextPokemons(amount) {
   const startId = pokemonState.nextPokemonId;
   const loadAmount = getLimitedLoadAmount(amount);
@@ -83,39 +94,44 @@ async function fetchNextPokemons(amount) {
   return getNewPokemons(pokemons);
 }
 
-// Begrenzt die Lademenge auf die übrigen Pokemon.
+
+// Limits the load amount to the remaining Pokemon.
 function getLimitedLoadAmount(amount) {
   const remainingAmount = getRemainingPokemonAmount();
   return Math.min(amount, Math.max(remainingAmount, 0));
 }
 
-// Ermittelt, wie viele Pokemon noch geladen werden können.
+
+// Calculates how many Pokemon can still be loaded.
 function getRemainingPokemonAmount() {
   return pokemonState.maxPokemonId - pokemonState.nextPokemonId + 1;
 }
 
-// Filtert Pokemon heraus, die bereits gerendert wurden.
+
+// Filters out Pokemon that are already rendered.
 function getNewPokemons(pokemons) {
   return pokemons.filter((pokemon) => {
     return !pokemonState.renderedPokemonIds.includes(pokemon.id);
   });
 }
 
-// Merkt sich, welche Pokemon bereits gerendert wurden.
+
+// Stores all rendered Pokemon IDs.
 function rememberRenderedPokemonIds(pokemons) {
   for (let index = 0; index < pokemons.length; index++) {
     rememberRenderedPokemonId(pokemons[index].id);
   }
 }
 
-// Merkt sich eine Pokemon-ID ohne doppelte Einträge.
+
+// Stores one Pokemon ID without duplicates.
 function rememberRenderedPokemonId(pokemonId) {
   if (pokemonState.renderedPokemonIds.includes(pokemonId)) return;
   pokemonState.renderedPokemonIds.push(pokemonId);
 }
 
-// Schaltet die App zwischen Lade-Modus und Normal-Modus um
-// Speichert den Ladezustand und aktualisiert die UI.
+
+// Stores the loading state and updates the UI.
 function setLoadingState(isLoading) {
   pokemonState.isLoading = isLoading;
   toggleLoadingScreen(isLoading);
@@ -123,27 +139,32 @@ function setLoadingState(isLoading) {
   updateSearchButtonState();
 }
 
-// Zeigt oder versteckt den Loading-Screen.
+
+// Shows or hides the loading screen.
 function toggleLoadingScreen(isLoading) {
   const loadingScreen = document.getElementById("loading_screen");
   loadingScreen.classList.toggle("is_hidden", !isLoading);
 }
 
-// Aktiviert oder deaktiviert den Load-More-Button.
+
+// Enables or disables the Load More button.
 function toggleLoadMoreButton(isLoading) {
   const loadMoreButton = document.getElementById("load_more_button");
   loadMoreButton.disabled = isLoading || !hasMorePokemonToLoad();
   loadMoreButton.classList.toggle("is_hidden", isLoadMoreButtonHidden());
 }
 
-// Prüft, ob der Load-More-Button versteckt werden soll.
+
+// Checks if the Load More button should be hidden.
 function isLoadMoreButtonHidden() {
   return pokemonState.isSearchActive || !hasMorePokemonToLoad();
 }
 
-// Prüft, ob weitere Pokemon geladen werden können.
+
+// Checks if more Pokemon can be loaded.
 function hasMorePokemonToLoad() {
   return pokemonState.nextPokemonId <= pokemonState.maxPokemonId;
 }
+
 
 window.addEventListener("DOMContentLoaded", initPokedex);

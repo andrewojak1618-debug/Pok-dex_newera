@@ -127,9 +127,9 @@ http://localhost:<live-server-port>
 |       |-- color.css
 |       |-- dialog.css
 |       `-- mediaquery.css
+|-- main.js
 `-- js/
     |-- globalState.js
-    |-- main.js
     |-- pokemonApi.js
     |-- pokemonView.js
     |-- search.js

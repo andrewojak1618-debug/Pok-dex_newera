@@ -1,22 +1,28 @@
-// Reagiert auf Änderungen im Suchfeld.
+﻿// Handles changes in the search input.
 function handleSearchInput() {
   updateSearchButtonState();
   const searchValue = getSearchValue();
-  if (isValidSearchValue(searchValue)) return;
+  if (isValidSearchValue(searchValue)) return renderLiveSearch(searchValue);
   if (searchValue.length > 0) return renderShortSearchMessage();
-  if (!pokemonState.isSearchActive) return;
-  resetSearchResult();
+  resetSearchAndDetailPanel();
 }
 
 
-// Zeigt die Meldung für zu kurze Suchbegriffe.
+// Shows the message for short search values.
 function renderShortSearchMessage() {
   activateSearchMode();
   renderMessage("Please enter at least 3 letters.");
 }
 
 
-// Verarbeitet die Suche und prüft die Mindestlänge.
+// Starts the search automatically from three letters.
+async function renderLiveSearch(searchValue) {
+  activateSearchMode();
+  await renderSearchResult(searchValue);
+}
+
+
+// Handles form search and checks the minimum length.
 async function handleSearchSubmit(event) {
   event.preventDefault();
   const searchValue = getSearchValue();
@@ -31,25 +37,25 @@ async function handleSearchSubmit(event) {
 }
 
 
-// Liest den aktuellen Suchbegriff aus dem Suchfeld.
+// Reads the current search value from the input.
 function getSearchValue() {
   return getSearchInput().value.trim().toLowerCase();
 }
 
 
-// Holt die Suchfeld-Referenz aus dem DOM.
+// Gets the search input reference from the DOM.
 function getSearchInput() {
   return document.getElementById("pokemon_search");
 }
 
 
-// Prüft, ob der Suchbegriff lang genug ist.
+// Checks if the search value is long enough.
 function isValidSearchValue(searchValue) {
   return searchValue.length >= 3;
 }
 
 
-// Aktiviert den Search-Button ab drei Zeichen.
+// Enables the search button from three letters.
 function updateSearchButtonState() {
   const searchButton = document.querySelector("[data-id='search-button']");
   searchButton.disabled =
@@ -57,48 +63,57 @@ function updateSearchButtonState() {
 }
 
 
-// Schaltet die App in den Suchmodus.
+// Switches the app into search mode.
 function activateSearchMode() {
   pokemonState.isSearchActive = true;
   toggleLoadMoreButton(pokemonState.isLoading);
 }
 
 
-// Schaltet die App zurück in den Listenmodus.
+// Switches the app back into list mode.
 function deactivateSearchMode() {
   pokemonState.isSearchActive = false;
   toggleLoadMoreButton(pokemonState.isLoading);
 }
 
 
-// Lädt alle passenden Pokemon und rendert die Suchergebnisse.
+// Loads matching Pokemon and renders the search results.
 async function renderSearchResult(searchValue) {
   setLoadingState(true);
   try {
     await renderApiSearchResults(searchValue);
   } catch (error) {
-    renderMessage("No match found.");
+    if (getSearchValue() === searchValue) renderMessage("No match found.");
   } finally {
     setLoadingState(false);
   }
 }
 
 
-// Rendert gefundene Teiltreffer oder zeigt eine Meldung.
+// Renders partial matches or shows a message.
 async function renderApiSearchResults(searchValue) {
   const pokemons = await fetchPokemonsBySearchValue(searchValue);
+  if (getSearchValue() !== searchValue) return;
   pokemons.length ? renderFoundPokemons(pokemons) : renderMessage("No match found.");
 }
 
 
-// Rendert alle gefundenen Pokemon als Karten.
+// Renders all found Pokemon as cards.
 function renderFoundPokemons(pokemons) {
   renderPokemonGrid(pokemons);
 }
 
 
-// Stellt die bereits geladene Pokemon-Liste wieder her.
+// Restores the already loaded Pokemon list.
 function resetSearchResult() {
   deactivateSearchMode();
   renderPokemonGrid(getRenderedPokemons());
+}
+
+
+// Clears search and resets the right detail panel.
+function resetSearchAndDetailPanel() {
+  resetSearchResult();
+  pokemonState.activePokemonId = null;
+  renderEmptyDetailPanel();
 }

@@ -31,7 +31,7 @@
   .page_header {
     width: min(100%, 1480px);
     min-height: auto;
-    gap: 18px;
+    gap: 36px;
     padding: 16px;
   }
 
@@ -174,7 +174,11 @@
 
 @media screen and (min-width: 721px) and (max-width: 832px) {
   .page_header {
-    padding: 0 18px;
+    padding: 0 24px;
+  }
+
+  .pokemon_grid {
+    grid-template-columns: repeat(2, minmax(210px, 1fr));
   }
 }
 
