@@ -7,7 +7,7 @@
 <div align="center">
 
 ![Learning project](https://img.shields.io/badge/Learning_Project-Frontend-00939b?style=for-the-badge)
-![Project status](https://img.shields.io/badge/Status-in_development-7d3cff?style=for-the-badge)
+![Project status](https://img.shields.io/badge/Status-accepted-7d3cff?style=for-the-badge)
 ![API](https://img.shields.io/badge/API-PokeAPI-ffcc00?style=for-the-badge)
 
 </div>
@@ -33,11 +33,7 @@ The app focuses on fetch-then-render, caching, lazy-loaded evolution data, searc
 
 ## Live Demo
 
-The GitHub Pages link is prepared here:
-
 [DarkDex Pokedex](https://andrewojak1618-debug.github.io/Pok-dex_newera/)
-
-> Note: The link works after GitHub Pages is enabled for this repository.
 
 ## Preview
 
@@ -58,6 +54,7 @@ The GitHub Pages link is prepared here:
 ## Requirements
 
 No build tools are required. The project can run with a local development server, for example the Live Server extension in VS Code.
+An internet connection is required because Pokemon data is loaded from the PokeAPI.
 
 ## Tech Stack
 
@@ -71,6 +68,7 @@ No build tools are required. The project can run with a local development server
 ## Data Source
 
 Pokemon data is loaded from the official [PokeAPI](https://pokeapi.co/). The app is limited to the first 151 Pokemon.
+Already loaded Pokemon, species and evolution data are cached during the session.
 
 ## Quickstart
 
@@ -119,7 +117,8 @@ http://localhost:<live-server-port>
 |-- assets/
 |   |-- gifs-icon/
 |   |-- icons/
-|   `-- images/
+|   |-- images/
+|   `-- screenshots/
 |-- css/
 |   `-- molecules/
 |       |-- assets.css
@@ -133,6 +132,7 @@ http://localhost:<live-server-port>
     |-- pokemonApi.js
     |-- pokemonView.js
     |-- search.js
+    |-- templateHelpers.js
     `-- templates.js
 ```
 
