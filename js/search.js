@@ -155,7 +155,17 @@ async function renderApiSearchResults(searchValue) {
  * Renders all found Pokemon as cards.
  */
 function renderFoundPokemons(pokemons) {
+  if (hasSameVisiblePokemonIds(pokemons)) return;
   renderPokemonGrid(pokemons);
+}
+
+
+/**
+ * Checks if the same search cards are already visible.
+ */
+function hasSameVisiblePokemonIds(pokemons) {
+  const pokemonIds = pokemons.map((pokemon) => pokemon.id);
+  return pokemonIds.join(",") === pokemonState.visiblePokemonIds.join(",");
 }
 
 

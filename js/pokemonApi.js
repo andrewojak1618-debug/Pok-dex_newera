@@ -23,7 +23,29 @@ async function fetchPokemonByName(pokemonName) {
  * Loads all Pokemon whose names contain the search value.
  */
 async function fetchPokemonsBySearchValue(searchValue) {
+  if (pokemonState.searchResultCache[searchValue]) {
+    return pokemonState.searchResultCache[searchValue];
+  }
+
+  return await fetchAndCacheSearchResults(searchValue);
+}
+
+
+/**
+ * Loads matching Pokemon once and stores the complete result.
+ */
+async function fetchAndCacheSearchResults(searchValue) {
   const pokemonNames = await fetchMatchingPokemonNames(searchValue);
+  const pokemons = await fetchPokemonsByNames(pokemonNames);
+  pokemonState.searchResultCache[searchValue] = pokemons;
+  return pokemons;
+}
+
+
+/**
+ * Loads all Pokemon for the given name list.
+ */
+async function fetchPokemonsByNames(pokemonNames) {
   const pokemonPromises = pokemonNames.map((name) => fetchPokemonByName(name));
   const pokemons = await Promise.all(pokemonPromises);
   return pokemons.filter((pokemon) => pokemon);

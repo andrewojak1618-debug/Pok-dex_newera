@@ -34,10 +34,10 @@ function getNotFoundTemplate(message) {
 /**
  * Builds the empty state for the detail panel.
  */
-function getEmptyDetailPanelTemplate() {
+function getEmptyDetailPanelTemplate(emptyImageTemplate) {
   return `
     <article class="detail_empty_state">
-      ${getEmptyDetailImageTemplate()}
+      ${emptyImageTemplate}
       <span class="detail_panel_label">Last selected</span>
       <h2>Select a Pokemon</h2>
       <p>Your last opened Pokemon will stay visible here.</p>
@@ -60,7 +60,7 @@ function getEmptyDetailImageTemplate() {
 function getDetailPanelTemplate(pokemon, detailParts) {
   return `
     <article class="detail_panel_content ${pokemon.types[0]}_detail">
-      ${getDetailPanelImageTemplate(pokemon)}
+      ${detailParts.image}
       ${detailParts.header}
       ${detailParts.profile}
       ${detailParts.evolution}
@@ -106,8 +106,8 @@ function getDetailPanelImageTemplate(pokemon) {
 /**
  * Builds the evolution section for the detail panel.
  */
-function getDetailEvolutionContentTemplate() {
-  return `<section class="detail_panel_evolution" id="detail_panel_evolution_content">${getEvolutionLoadingTemplate()}</section>`;
+function getDetailEvolutionContentTemplate(loadingTemplate) {
+  return `<section class="detail_panel_evolution" id="detail_panel_evolution_content">${loadingTemplate}</section>`;
 }
 
 
@@ -124,8 +124,8 @@ function getDetailNavigationTemplate() {
  */
 function getPokemonDialogContentTemplate(pokemon, dialogParts) {
   return `
-    ${getCloseDialogButtonTemplate()}
-    ${getDialogImageTemplate(pokemon)}
+    ${dialogParts.closeButton}
+    ${dialogParts.image}
     <span class="dialog_pokemon_number">No. ${pokemon.id}</span>
     <h2 class="dialog_pokemon_name">${pokemon.name}</h2>
     <span class="pokemon_types">${dialogParts.types}</span>
@@ -192,8 +192,8 @@ function getPokemonStatTemplate(statLabel, statValue) {
 /**
  * Builds the evolution section for the dialog.
  */
-function getEvolutionContentTemplate() {
-  return `<section class="dialog_evolution" id="dialog_evolution_content">${getEvolutionLoadingTemplate()}</section>`;
+function getEvolutionContentTemplate(loadingTemplate) {
+  return `<section class="dialog_evolution" id="dialog_evolution_content">${loadingTemplate}</section>`;
 }
 
 

@@ -32,6 +32,14 @@ function getPokemonTypeHtml(type) {
 
 
 /**
+ * Builds the prepared empty detail panel.
+ */
+function getPreparedEmptyDetailPanelTemplate() {
+  return getEmptyDetailPanelTemplate(getEmptyDetailImageTemplate());
+}
+
+
+/**
  * Builds the detail panel with prepared markup.
  */
 function getPreparedDetailPanelTemplate(pokemon) {
@@ -44,9 +52,10 @@ function getPreparedDetailPanelTemplate(pokemon) {
  */
 function getDetailPanelParts(pokemon) {
   return {
+    image: getDetailPanelImageTemplate(pokemon),
     header: getDetailPanelHeaderHtml(pokemon),
     profile: getDetailPanelProfileHtml(pokemon),
-    evolution: getDetailEvolutionContentTemplate(),
+    evolution: getDetailEvolutionContentHtml(),
     navigation: getDetailNavigationTemplate(),
   };
 }
@@ -74,6 +83,14 @@ function getDetailPanelProfileHtml(pokemon) {
 
 
 /**
+ * Builds prepared evolution markup for the detail panel.
+ */
+function getDetailEvolutionContentHtml() {
+  return getDetailEvolutionContentTemplate(getEvolutionLoadingTemplate());
+}
+
+
+/**
  * Builds the dialog content with prepared markup.
  */
 function getPreparedPokemonDialogContentTemplate(pokemon) {
@@ -86,9 +103,11 @@ function getPreparedPokemonDialogContentTemplate(pokemon) {
  */
 function getDialogParts(pokemon) {
   return {
+    closeButton: getCloseDialogButtonTemplate(),
+    image: getDialogImageTemplate(pokemon),
     types: getPokemonTypesTemplate(pokemon.types),
     profile: getDialogProfileHtml(pokemon),
-    evolution: getEvolutionContentTemplate(),
+    evolution: getEvolutionContentHtml(),
     navigation: getDialogNavigationTemplate(),
   };
 }
@@ -101,6 +120,14 @@ function getDialogProfileHtml(pokemon) {
   const measuresTemplate = getPokemonMeasureTemplate(pokemon);
   const statsTemplate = getPokemonStatsTemplate(pokemon.stats);
   return getDialogProfileTemplate(measuresTemplate, statsTemplate);
+}
+
+
+/**
+ * Builds prepared evolution markup for the dialog.
+ */
+function getEvolutionContentHtml() {
+  return getEvolutionContentTemplate(getEvolutionLoadingTemplate());
 }
 
 

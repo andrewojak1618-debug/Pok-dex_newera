@@ -15,6 +15,7 @@ const pokemonState = {
   scrollPosition: 0,
   pokemonCache: {},
   pokemonListCache: null,
+  searchResultCache: {},
   speciesCache: {},
   evolutionCache: {},
   renderedPokemonIds: [],
