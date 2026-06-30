@@ -1,35 +1,47 @@
-// Builds all Pokemon card templates.
+﻿/**
+ * Builds all Pokemon card templates.
+ */
 function getPokemonCardsTemplate(pokemons) {
   return pokemons.map((pokemon) => getPokemonCardHtml(pokemon)).join("");
 }
 
 
-// Builds one Pokemon card with prepared type markup.
+/**
+ * Builds one Pokemon card with prepared type markup.
+ */
 function getPokemonCardHtml(pokemon) {
   const typesTemplate = getPokemonTypesTemplate(pokemon.types);
   return getPokemonCardTemplate(pokemon, typesTemplate);
 }
 
 
-// Builds all type badge templates.
+/**
+ * Builds all type badge templates.
+ */
 function getPokemonTypesTemplate(types) {
   return types.map((type) => getPokemonTypeHtml(type)).join("");
 }
 
 
-// Builds one type badge with a formatted label.
+/**
+ * Builds one type badge with a formatted label.
+ */
 function getPokemonTypeHtml(type) {
   return getPokemonTypeTemplate(type, capitalizeFirstLetter(type));
 }
 
 
-// Builds the detail panel with prepared markup.
+/**
+ * Builds the detail panel with prepared markup.
+ */
 function getPreparedDetailPanelTemplate(pokemon) {
   return getDetailPanelTemplate(pokemon, getDetailPanelParts(pokemon));
 }
 
 
-// Collects prepared detail panel parts.
+/**
+ * Collects prepared detail panel parts.
+ */
 function getDetailPanelParts(pokemon) {
   return {
     header: getDetailPanelHeaderHtml(pokemon),
@@ -40,7 +52,9 @@ function getDetailPanelParts(pokemon) {
 }
 
 
-// Builds number, name, and type markup for the detail panel.
+/**
+ * Builds number, name, and type markup for the detail panel.
+ */
 function getDetailPanelHeaderHtml(pokemon) {
   return getDetailPanelHeaderTemplate(
     pokemon,
@@ -49,7 +63,9 @@ function getDetailPanelHeaderHtml(pokemon) {
 }
 
 
-// Builds prepared profile markup for the detail panel.
+/**
+ * Builds prepared profile markup for the detail panel.
+ */
 function getDetailPanelProfileHtml(pokemon) {
   const measuresTemplate = getPokemonMeasureTemplate(pokemon);
   const statsTemplate = getPokemonStatsTemplate(pokemon.stats);
@@ -57,13 +73,17 @@ function getDetailPanelProfileHtml(pokemon) {
 }
 
 
-// Builds the dialog content with prepared markup.
+/**
+ * Builds the dialog content with prepared markup.
+ */
 function getPreparedPokemonDialogContentTemplate(pokemon) {
   return getPokemonDialogContentTemplate(pokemon, getDialogParts(pokemon));
 }
 
 
-// Collects prepared dialog parts.
+/**
+ * Collects prepared dialog parts.
+ */
 function getDialogParts(pokemon) {
   return {
     types: getPokemonTypesTemplate(pokemon.types),
@@ -74,7 +94,9 @@ function getDialogParts(pokemon) {
 }
 
 
-// Builds prepared profile markup for the dialog.
+/**
+ * Builds prepared profile markup for the dialog.
+ */
 function getDialogProfileHtml(pokemon) {
   const measuresTemplate = getPokemonMeasureTemplate(pokemon);
   const statsTemplate = getPokemonStatsTemplate(pokemon.stats);
@@ -82,7 +104,9 @@ function getDialogProfileHtml(pokemon) {
 }
 
 
-// Builds height and weight markup with formatted values.
+/**
+ * Builds height and weight markup with formatted values.
+ */
 function getPokemonMeasureTemplate(pokemon) {
   const heightTemplate = getMeasureTemplate("Height", formatHeight(pokemon.height));
   const weightTemplate = getMeasureTemplate("Weight", formatWeight(pokemon.weight));
@@ -90,25 +114,33 @@ function getPokemonMeasureTemplate(pokemon) {
 }
 
 
-// Builds all stat templates.
+/**
+ * Builds all stat templates.
+ */
 function getPokemonStatsTemplate(stats) {
   return stats.map((stat) => getPokemonStatHtml(stat)).join("");
 }
 
 
-// Builds one stat template with a formatted label.
+/**
+ * Builds one stat template with a formatted label.
+ */
 function getPokemonStatHtml(stat) {
   return getPokemonStatTemplate(formatStatLabel(stat.name), stat.value);
 }
 
 
-// Shortens API stat names for compact stat pills.
+/**
+ * Shortens API stat names for compact stat pills.
+ */
 function formatStatLabel(statName) {
   return getStatLabels()[statName] || statName;
 }
 
 
-// Returns the short labels for Pokemon stats.
+/**
+ * Returns the short labels for Pokemon stats.
+ */
 function getStatLabels() {
   return {
     hp: "HP",
@@ -121,26 +153,34 @@ function getStatLabels() {
 }
 
 
-// Formats the API height from decimeters to meters.
+/**
+ * Formats the API height from decimeters to meters.
+ */
 function formatHeight(height) {
   return `${(height / 10).toFixed(1)} m`;
 }
 
 
-// Formats the API weight from hectograms to kilograms.
+/**
+ * Formats the API weight from hectograms to kilograms.
+ */
 function formatWeight(weight) {
   return `${(weight / 10).toFixed(1)} kg`;
 }
 
 
-// Builds the evolution section content.
+/**
+ * Builds the evolution section content.
+ */
 function getEvolutionTemplate(evolutions) {
   if (!evolutions.length) return getEvolutionErrorTemplate();
   return getLoadedEvolutionTemplate(getEvolutionItemsTemplate(evolutions));
 }
 
 
-// Builds all evolution stage templates.
+/**
+ * Builds all evolution stage templates.
+ */
 function getEvolutionItemsTemplate(evolutions) {
   return evolutions.map((evolution, index) => {
     return getEvolutionItemHtml(evolution, index);
@@ -148,14 +188,18 @@ function getEvolutionItemsTemplate(evolutions) {
 }
 
 
-// Builds one evolution stage with prepared level markup.
+/**
+ * Builds one evolution stage with prepared level markup.
+ */
 function getEvolutionItemHtml(evolution, index) {
   const levelTemplate = getEvolutionLevelHtml(evolution, index);
   return getEvolutionItemTemplate(evolution, levelTemplate);
 }
 
 
-// Builds optional level markup for one evolution stage.
+/**
+ * Builds optional level markup for one evolution stage.
+ */
 function getEvolutionLevelHtml(evolution, index) {
   if (index === 0) return "";
   return getEvolutionLevelTemplate(evolution.level || "?");

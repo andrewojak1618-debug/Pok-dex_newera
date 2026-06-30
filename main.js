@@ -1,4 +1,6 @@
-﻿// Starts the app and loads the first Pokemon.
+﻿/**
+ * Starts the app and loads the first Pokemon.
+ */
 async function initPokedex() {
   connectLoadMoreButton();
   connectSearchForm();
@@ -9,14 +11,18 @@ async function initPokedex() {
 }
 
 
-// Connects the Load More button with its action.
+/**
+ * Connects the Load More button with its action.
+ */
 function connectLoadMoreButton() {
   const loadMoreButton = document.getElementById("load_more_button");
   loadMoreButton.addEventListener("click", loadMorePokemon);
 }
 
 
-// Connects the search form with its action.
+/**
+ * Connects the search form with its action.
+ */
 function connectSearchForm() {
   const searchForm = document.querySelector(".search_bar");
   searchForm.addEventListener("submit", handleSearchSubmit);
@@ -25,7 +31,9 @@ function connectSearchForm() {
 }
 
 
-// Connects the search input with live search updates.
+/**
+ * Connects the search input with live search updates.
+ */
 function connectSearchInput() {
   const searchInput = getSearchInput();
   searchInput.addEventListener("input", handleSearchInput);
@@ -34,21 +42,27 @@ function connectSearchInput() {
 }
 
 
-// Connects the clear search button with its action.
+/**
+ * Connects the clear search button with its action.
+ */
 function connectSearchClearButton() {
   const clearButton = getClearSearchButton();
   clearButton.addEventListener("click", clearSearchInput);
 }
 
 
-// Connects the Pokemon grid with the detail view.
+/**
+ * Connects the Pokemon grid with the detail view.
+ */
 function connectPokemonGrid() {
   const pokemonGrid = document.getElementById("pokemon_grid");
   pokemonGrid.addEventListener("click", handlePokemonCardClick);
 }
 
 
-// Connects the dialog with backdrop and close events.
+/**
+ * Connects the dialog with backdrop and close events.
+ */
 function connectPokemonDialog() {
   const pokemonDialog = document.getElementById("pokemon_dialog");
   pokemonDialog.addEventListener("click", handleDialogBackdropClick);
@@ -56,19 +70,25 @@ function connectPokemonDialog() {
 }
 
 
-// Loads the first Pokemon group on startup.
+/**
+ * Loads the first Pokemon group on startup.
+ */
 async function loadInitialPokemon() {
   await loadPokemonCards(pokemonState.initialAmount);
 }
 
 
-// Loads the next Pokemon group from the button.
+/**
+ * Loads the next Pokemon group from the button.
+ */
 async function loadMorePokemon() {
   await loadPokemonCards(pokemonState.loadAmount);
 }
 
 
-// Controls loading, error handling, and feedback UI.
+/**
+ * Controls loading, error handling, and feedback UI.
+ */
 async function loadPokemonCards(amount) {
   if (pokemonState.isLoading) return;
   setLoadingState(true);
@@ -82,7 +102,9 @@ async function loadPokemonCards(amount) {
 }
 
 
-// Loads new Pokemon and appends them to the list.
+/**
+ * Loads new Pokemon and appends them to the list.
+ */
 async function appendNextPokemonCards(amount) {
   const pokemons = await fetchNextPokemons(amount);
   if (!pokemons.length) return;
@@ -92,7 +114,9 @@ async function appendNextPokemonCards(amount) {
 }
 
 
-// Gets the next Pokemon from the current start point.
+/**
+ * Gets the next Pokemon from the current start point.
+ */
 async function fetchNextPokemons(amount) {
   const startId = pokemonState.nextPokemonId;
   const loadAmount = getLimitedLoadAmount(amount);
@@ -103,20 +127,26 @@ async function fetchNextPokemons(amount) {
 }
 
 
-// Limits the load amount to the remaining Pokemon.
+/**
+ * Limits the load amount to the remaining Pokemon.
+ */
 function getLimitedLoadAmount(amount) {
   const remainingAmount = getRemainingPokemonAmount();
   return Math.min(amount, Math.max(remainingAmount, 0));
 }
 
 
-// Calculates how many Pokemon can still be loaded.
+/**
+ * Calculates how many Pokemon can still be loaded.
+ */
 function getRemainingPokemonAmount() {
   return pokemonState.maxPokemonId - pokemonState.nextPokemonId + 1;
 }
 
 
-// Filters out Pokemon that are already rendered.
+/**
+ * Filters out Pokemon that are already rendered.
+ */
 function getNewPokemons(pokemons) {
   return pokemons.filter((pokemon) => {
     return !pokemonState.renderedPokemonIds.includes(pokemon.id);
@@ -124,7 +154,9 @@ function getNewPokemons(pokemons) {
 }
 
 
-// Stores all rendered Pokemon IDs.
+/**
+ * Stores all rendered Pokemon IDs.
+ */
 function rememberRenderedPokemonIds(pokemons) {
   for (let index = 0; index < pokemons.length; index++) {
     rememberRenderedPokemonId(pokemons[index].id);
@@ -132,14 +164,18 @@ function rememberRenderedPokemonIds(pokemons) {
 }
 
 
-// Stores one Pokemon ID without duplicates.
+/**
+ * Stores one Pokemon ID without duplicates.
+ */
 function rememberRenderedPokemonId(pokemonId) {
   if (pokemonState.renderedPokemonIds.includes(pokemonId)) return;
   pokemonState.renderedPokemonIds.push(pokemonId);
 }
 
 
-// Stores the loading state and updates the UI.
+/**
+ * Stores the loading state and updates the UI.
+ */
 function setLoadingState(isLoading) {
   pokemonState.isLoading = isLoading;
   toggleLoadingScreen(isLoading);
@@ -148,14 +184,18 @@ function setLoadingState(isLoading) {
 }
 
 
-// Shows or hides the loading screen.
+/**
+ * Shows or hides the loading screen.
+ */
 function toggleLoadingScreen(isLoading) {
   const loadingScreen = document.getElementById("loading_screen");
   loadingScreen.classList.toggle("is_hidden", !isLoading);
 }
 
 
-// Enables or disables the Load More button.
+/**
+ * Enables or disables the Load More button.
+ */
 function toggleLoadMoreButton(isLoading) {
   const loadMoreButton = document.getElementById("load_more_button");
   loadMoreButton.disabled = isLoading || !hasMorePokemonToLoad();
@@ -163,13 +203,17 @@ function toggleLoadMoreButton(isLoading) {
 }
 
 
-// Checks if the Load More button should be hidden.
+/**
+ * Checks if the Load More button should be hidden.
+ */
 function isLoadMoreButtonHidden() {
   return pokemonState.isSearchActive || !hasMorePokemonToLoad();
 }
 
 
-// Checks if more Pokemon can be loaded.
+/**
+ * Checks if more Pokemon can be loaded.
+ */
 function hasMorePokemonToLoad() {
   return pokemonState.nextPokemonId <= pokemonState.maxPokemonId;
 }

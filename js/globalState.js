@@ -1,4 +1,6 @@
-﻿// Stores central app values, loaded Pokemon, and loading state.
+﻿/**
+ * Stores central app values, loaded Pokemon, and loading state.
+ */
 const pokemonState = {
   baseUrl: "https://pokeapi.co/api/v2",
   initialAmount: 20,

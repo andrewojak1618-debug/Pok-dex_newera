@@ -1,17 +1,25 @@
-﻿// Adds Pokemon cards to the existing grid container.
+﻿/**
+ * Adds Pokemon cards to the existing grid container.
+ */
 function appendPokemonCards(pokemons) {
   const pokemonGrid = document.getElementById("pokemon_grid");
   pokemonGrid.innerHTML += getPokemonCardsTemplate(pokemons);
 }
 
-// Gets all currently rendered Pokemon from the cache.
+
+/**
+ * Gets all currently rendered Pokemon from the cache.
+ */
 function getRenderedPokemons() {
   return pokemonState.renderedPokemonIds.map((pokemonId) => {
     return pokemonState.pokemonCache[pokemonId];
   });
 }
 
-// Replaces the grid content with a new Pokemon list.
+
+/**
+ * Replaces the grid content with a new Pokemon list.
+ */
 function renderPokemonGrid(pokemons) {
   document.getElementById("message_container").innerHTML = "";
   document.getElementById("pokemon_grid").innerHTML =
@@ -19,12 +27,18 @@ function renderPokemonGrid(pokemons) {
   updateVisiblePokemonIds(pokemons);
 }
 
-// Stores the currently visible Pokemon IDs for navigation.
+
+/**
+ * Stores the currently visible Pokemon IDs for navigation.
+ */
 function updateVisiblePokemonIds(pokemons) {
   pokemonState.visiblePokemonIds = pokemons.map((pokemon) => pokemon.id);
 }
 
-// Shows a message and clears the card area.
+
+/**
+ * Shows a message and clears the card area.
+ */
 function renderMessage(message) {
   document.getElementById("message_container").innerHTML = "";
   document.getElementById("pokemon_grid").innerHTML =
@@ -32,14 +46,20 @@ function renderMessage(message) {
   updateVisiblePokemonIds([]);
 }
 
-// Handles clicks on Pokemon cards.
+
+/**
+ * Handles clicks on Pokemon cards.
+ */
 function handlePokemonCardClick(event) {
   const pokemonCard = event.target.closest("[data-id='card']");
   if (!pokemonCard) return;
   openPokemonDetails(Number(pokemonCard.dataset.pokemonId));
 }
 
-// Loads Pokemon data and opens the matching detail view.
+
+/**
+ * Loads Pokemon data and opens the matching detail view.
+ */
 async function openPokemonDetails(pokemonId) {
   const requestId = startDialogRequest();
   try {
@@ -52,14 +72,20 @@ async function openPokemonDetails(pokemonId) {
   }
 }
 
-// Shows loaded data and then adds evolution data.
+
+/**
+ * Shows loaded data and then adds evolution data.
+ */
 async function renderLoadedPokemonRequest(pokemon, requestId) {
   showLoadedPokemonDetails(pokemon);
   endDialogRequest(requestId);
   await renderEvolutionSection(pokemon);
 }
 
-// Shows loaded Pokemon data based on the screen size.
+
+/**
+ * Shows loaded Pokemon data based on the screen size.
+ */
 function showLoadedPokemonDetails(pokemon) {
   pokemonState.activePokemonId = pokemon.id;
   renderLastSelectedPokemon(pokemon);
@@ -67,23 +93,35 @@ function showLoadedPokemonDetails(pokemon) {
   showPokemonDialog();
 }
 
-// Renders the empty start state in the detail panel.
+
+/**
+ * Renders the empty start state in the detail panel.
+ */
 function renderEmptyDetailPanel() {
   getDetailPanel().innerHTML = getEmptyDetailPanelTemplate();
 }
 
-// Renders the last selected Pokemon in the detail panel.
+
+/**
+ * Renders the last selected Pokemon in the detail panel.
+ */
 function renderLastSelectedPokemon(pokemon) {
   getDetailPanel().innerHTML = getPreparedDetailPanelTemplate(pokemon);
   connectDetailNavigationButtons();
 }
 
-// Gets the right detail panel from the DOM.
+
+/**
+ * Gets the right detail panel from the DOM.
+ */
 function getDetailPanel() {
   return document.querySelector(".pokemon_detail_panel");
 }
 
-// Starts a protected dialog loading request.
+
+/**
+ * Starts a protected dialog loading request.
+ */
 function startDialogRequest() {
   pokemonState.isDialogLoading = true;
   pokemonState.dialogRequestId += 1;
@@ -91,19 +129,28 @@ function startDialogRequest() {
   return pokemonState.dialogRequestId;
 }
 
-// Ends the current dialog loading request.
+
+/**
+ * Ends the current dialog loading request.
+ */
 function endDialogRequest(requestId) {
   if (!isActiveDialogRequest(requestId)) return;
   pokemonState.isDialogLoading = false;
   toggleDialogNavigationButtons(false);
 }
 
-// Checks if the dialog response is still current.
+
+/**
+ * Checks if the dialog response is still current.
+ */
 function isActiveDialogRequest(requestId) {
   return pokemonState.dialogRequestId === requestId;
 }
 
-// Loads and renders evolution data for the opened Pokemon.
+
+/**
+ * Loads and renders evolution data for the opened Pokemon.
+ */
 async function renderEvolutionSection(pokemon) {
   try {
     const evolutions = await fetchEvolutionChain(pokemon);
@@ -114,33 +161,48 @@ async function renderEvolutionSection(pokemon) {
   }
 }
 
-// Renders loaded evolution data in dialog and detail panel.
+
+/**
+ * Renders loaded evolution data in dialog and detail panel.
+ */
 function renderLoadedEvolution(evolutions) {
   const template = getEvolutionTemplate(evolutions);
   updateEvolutionSection(template);
   updateDetailEvolutionSection(template);
 }
 
-// Renders the error state for evolution data.
+
+/**
+ * Renders the error state for evolution data.
+ */
 function renderEvolutionError() {
   const template = getEvolutionErrorTemplate();
   updateEvolutionSection(template);
   updateDetailEvolutionSection(template);
 }
 
-// Checks if the loaded Pokemon is still active.
+
+/**
+ * Checks if the loaded Pokemon is still active.
+ */
 function isActivePokemon(pokemonId) {
   return pokemonState.activePokemonId === pokemonId;
 }
 
-// Updates only the evolution area in the dialog.
+
+/**
+ * Updates only the evolution area in the dialog.
+ */
 function updateEvolutionSection(template) {
   const evolutionContent = document.getElementById("dialog_evolution_content");
   if (!evolutionContent) return;
   evolutionContent.innerHTML = template;
 }
 
-// Updates only the evolution area in the detail panel.
+
+/**
+ * Updates only the evolution area in the detail panel.
+ */
 function updateDetailEvolutionSection(template) {
   const evolutionContent = document.getElementById(
     "detail_panel_evolution_content",
@@ -149,7 +211,10 @@ function updateDetailEvolutionSection(template) {
   evolutionContent.innerHTML = template;
 }
 
-// Renders real Pokemon data into the dialog.
+
+/**
+ * Renders real Pokemon data into the dialog.
+ */
 function renderPokemonDialog(pokemon) {
   const dialogContent = document.querySelector(
     "[data-id='overlay-pokemon-name']",
@@ -158,7 +223,10 @@ function renderPokemonDialog(pokemon) {
   connectDialogButtons();
 }
 
-// Opens the native Pokemon dialog.
+
+/**
+ * Opens the native Pokemon dialog.
+ */
 function showPokemonDialog() {
   const pokemonDialog = document.getElementById("pokemon_dialog");
   if (pokemonDialog.open) return;
@@ -166,7 +234,10 @@ function showPokemonDialog() {
   pokemonDialog.showModal();
 }
 
-// Connects the dialog buttons with their actions.
+
+/**
+ * Connects the dialog buttons with their actions.
+ */
 function connectDialogButtons() {
   connectDialogCloseButton();
   connectPreviousButton();
@@ -174,7 +245,10 @@ function connectDialogButtons() {
   togglePokemonNavigationButtons(false);
 }
 
-// Connects the detail panel navigation buttons.
+
+/**
+ * Connects the detail panel navigation buttons.
+ */
 function connectDetailNavigationButtons() {
   const buttons = getDetailNavigationButtons();
   if (!buttons.length) return;
@@ -183,30 +257,45 @@ function connectDetailNavigationButtons() {
   togglePokemonNavigationButtons(false);
 }
 
-// Connects the close button with the dialog.
+
+/**
+ * Connects the close button with the dialog.
+ */
 function connectDialogCloseButton() {
   const closeButton = document.querySelector("[data-id='close-dialog-button']");
   closeButton.addEventListener("click", closePokemonDialog);
 }
 
-// Connects the Previous button with the previous Pokemon.
+
+/**
+ * Connects the Previous button with the previous Pokemon.
+ */
 function connectPreviousButton() {
   const previousButton = document.querySelector("[data-id='prev-button']");
   previousButton.addEventListener("click", showPreviousPokemon);
 }
 
-// Connects the Next button with the next Pokemon.
+
+/**
+ * Connects the Next button with the next Pokemon.
+ */
 function connectNextButton() {
   const nextButton = document.querySelector("[data-id='next-button']");
   nextButton.addEventListener("click", showNextPokemon);
 }
 
-// Updates dialog navigation for the current state.
+
+/**
+ * Updates dialog navigation for the current state.
+ */
 function toggleDialogNavigationButtons(isDisabled) {
   togglePokemonNavigationButtons(isDisabled);
 }
 
-// Updates all Pokemon navigation buttons for the current state.
+
+/**
+ * Updates all Pokemon navigation buttons for the current state.
+ */
 function togglePokemonNavigationButtons(isDisabled) {
   const buttons = getDialogNavigationButtons();
   buttons.forEach((button) => {
@@ -214,62 +303,88 @@ function togglePokemonNavigationButtons(isDisabled) {
   });
 }
 
-// Gets all navigation buttons from dialog and detail panel.
+
+/**
+ * Gets all navigation buttons from dialog and detail panel.
+ */
 function getDialogNavigationButtons() {
   return document.querySelectorAll(
     "[data-id='prev-button'], [data-id='next-button'], .detail_arrow_button",
   );
 }
 
-// Gets the navigation buttons from the right detail panel.
+
+/**
+ * Gets the navigation buttons from the right detail panel.
+ */
 function getDetailNavigationButtons() {
   return document.querySelectorAll(".detail_arrow_button");
 }
 
-// Checks if more than one visible Pokemon can be navigated.
+
+/**
+ * Checks if more than one visible Pokemon can be navigated.
+ */
 function hasDialogNavigation() {
   return pokemonState.visiblePokemonIds.length > 1;
 }
 
-// Shows the previous Pokemon in the current detail view.
+
+/**
+ * Shows the previous Pokemon in the current detail view.
+ */
 function showPreviousPokemon() {
-  if (pokemonState.isDialogLoading) return;
-  const previousPokemonId = getPreviousPokemonId();
-  openPokemonDetails(previousPokemonId);
+  navigatePokemon(-1);
 }
 
-// Shows the next Pokemon in the current detail view.
+
+/**
+ * Shows the next Pokemon in the current detail view.
+ */
 function showNextPokemon() {
+  navigatePokemon(1);
+}
+
+
+/**
+ * Shows a Pokemon relative to the current visible position.
+ */
+function navigatePokemon(direction) {
   if (pokemonState.isDialogLoading) return;
-  const nextPokemonId = getNextPokemonId();
-  openPokemonDetails(nextPokemonId);
+  openPokemonDetails(getRelativePokemonId(direction));
 }
 
-// Gets the ID of the previous rendered Pokemon.
-function getPreviousPokemonId() {
+
+/**
+ * Gets the ID of a Pokemon by relative navigation direction.
+ */
+function getRelativePokemonId(direction) {
   const currentIndex = getActivePokemonIndex();
-  const lastIndex = pokemonState.visiblePokemonIds.length - 1;
-  return (
-    pokemonState.visiblePokemonIds[currentIndex - 1] ||
-    pokemonState.visiblePokemonIds[lastIndex]
-  );
+  const targetIndex = getWrappedPokemonIndex(currentIndex + direction);
+  return pokemonState.visiblePokemonIds[targetIndex];
 }
 
-// Gets the ID of the next rendered Pokemon.
-function getNextPokemonId() {
-  const currentIndex = getActivePokemonIndex();
-  return (
-    pokemonState.visiblePokemonIds[currentIndex + 1] ||
-    pokemonState.visiblePokemonIds[0]
-  );
+
+/**
+ * Wraps navigation around the visible Pokemon list.
+ */
+function getWrappedPokemonIndex(targetIndex) {
+  const pokemonCount = pokemonState.visiblePokemonIds.length;
+  return (targetIndex + pokemonCount) % pokemonCount;
 }
 
-// Gets the position of the currently opened Pokemon.
+
+/**
+ * Gets the position of the currently opened Pokemon.
+ */
 function getActivePokemonIndex() {
   return pokemonState.visiblePokemonIds.indexOf(pokemonState.activePokemonId);
 }
 
-// Closes the native Pokemon dialog.
+
+/**
+ * Closes the native Pokemon dialog.
+ */
 function closePokemonDialog() {
   const pokemonDialog = document.getElementById("pokemon_dialog");
   if (!pokemonDialog.open) return;
@@ -277,20 +392,29 @@ function closePokemonDialog() {
   unlockPageScroll();
 }
 
-// Closes the dialog when the backdrop is clicked.
+
+/**
+ * Closes the dialog when the backdrop is clicked.
+ */
 function handleDialogBackdropClick(event) {
   if (event.target !== event.currentTarget) return;
   closePokemonDialog();
 }
 
-// Locks the page at the current scroll position.
+
+/**
+ * Locks the page at the current scroll position.
+ */
 function lockPageScroll() {
   pokemonState.scrollPosition = window.scrollY;
   document.body.style.top = `-${pokemonState.scrollPosition}px`;
   document.body.classList.add("dialog_is_open");
 }
 
-// Unlocks scrolling and restores the previous position.
+
+/**
+ * Unlocks scrolling and restores the previous position.
+ */
 function unlockPageScroll() {
   document.body.classList.remove("dialog_is_open");
   document.body.style.top = "";
