@@ -80,7 +80,28 @@ async function renderLoadedPokemonRequest(pokemon, requestId) {
  */
 function showLoadedPokemonDetails(pokemon) {
   pokemonState.activePokemonId = pokemon.id;
+  if (usesDesktopDetailPanel()) return showPokemonDetailsInPanel(pokemon);
+  showPokemonDetailsInDialog(pokemon);
+}
+
+/**
+ * Checks if the desktop detail panel is visible.
+ */
+function usesDesktopDetailPanel() {
+  return window.matchMedia("(min-width: 1256px)").matches;
+}
+
+/**
+ * Shows Pokemon details in the desktop detail panel.
+ */
+function showPokemonDetailsInPanel(pokemon) {
   renderLastSelectedPokemon(pokemon);
+}
+
+/**
+ * Shows Pokemon details in the mobile and tablet dialog.
+ */
+function showPokemonDetailsInDialog(pokemon) {
   renderPokemonDialog(pokemon);
   showPokemonDialog();
 }
